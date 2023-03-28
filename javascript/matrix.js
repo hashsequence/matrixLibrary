@@ -1,3 +1,5 @@
+export {Matrix, Row}
+
 function Row(arr) {
     this.arr = arr;
     this.n = arr.length
@@ -142,6 +144,15 @@ Matrix.prototype.LUDecomposition = function() {
     return [lower,upper];
 }
 
+//Inversion algorithm
+//LU Decomposition time complexity O(n^3)
+//since A=LU -> A^-1 = (LU)^-1 ==>  A^-1 = U^-1 * L^-1 (matrix multiplication is not commutative so U^-1 * L^-1)
+//so invert U and L which would take O(n^3) 
+// multiply U^-1 * L^-1 will tak O(n^3)
+Matrix.prototype.Inversion = function() {
+    let [L,U] = this.LUDecomposition();
+    return invertUpperTriangularMatrix(U).Multiply(invertLowerTriangularMatrix(L));
+}
 //Inverse of an upper triangular matrix is upper triangular
 //inverse of lower triangular matrix is lower triangular
 //to compute the inverse of a triangular matrix,
@@ -158,22 +169,33 @@ function invertUpperTriangularMatrix(M) {
     for (let i = 0; i < result.GetSize(); i++) {
         let x = new Row(Array.apply(null, Array(M.GetSize())).map(Number.prototype.valueOf,0));
         for (let j = result.GetSize()-1; j >= 0; j--) {
-            if (j == result.GetSize()-1) {
-                result.SetCell(j,i,result.GetCell(j,i)/M.GetCell(j,j));
-            } else {
-                let sum = 0;
-                for (let k = result.GetSize()-1; k > j; k--) {
-                    sum += result.GetCell(k,i) * M.GetCell(j,k);
-                }
-                result.SetCell(j,i,(result.GetCell(j,i)-sum)/M.GetCell(j,j));
-            }           
+            let sum = 0;
+            for (let k = result.GetSize()-1; k > j; k--) {
+                sum += result.GetCell(k,i) * M.GetCell(j,k);
+            }
+            result.SetCell(j,i,(result.GetCell(j,i)-sum)/M.GetCell(j,j));         
         }
     }
     return result;
 }
 
 function invertLowerTriangularMatrix(M) {
-
+    let result = new Matrix(M.GetSize())
+    //create result matrix and intialize to identity matrix
+    for (let i = 0; i < result.GetSize(); i++) {
+        result.SetCell(i,i,1);
+    }
+    for (let i = 0; i < result.GetSize(); i++) {
+        let x = new Row(Array.apply(null, Array(M.GetSize())).map(Number.prototype.valueOf,0));
+        for (let j = 0; j < result.GetSize(); j++) {
+            let sum = 0;
+            for (let k = 0; k < j; k++) {
+                sum += result.GetCell(k,i) * M.GetCell(j,k);
+            }
+            result.SetCell(j,i,(result.GetCell(j,i)-sum)/M.GetCell(j,j));         
+        }
+    }
+    return result;
 }
 
 function Example1() {
@@ -197,6 +219,40 @@ function Example3() {
     invertUpperTriangularMatrix(new Matrix(3,[2,-1,-2,0,4,-1,0,0,3])).Print()
 }
 
+function Example4() {
+    let mat1 = new Matrix(5,[
+        5,	7,	9,	4,   4,
+        2,	4,	7,	1,	4,
+        7,	9,	3,	1,	2,
+        5,	6,	3,	6,	2,
+        1,	4,	2,	5,	2
+    ])
+    let [L,U] = mat1.LUDecomposition()
+    L.Print()
+    invertLowerTriangularMatrix(L).Print()
+}
+
+function Example5() {
+    let mat = new Matrix(3,[2, -1, -2 ,
+                 -4, 6, 3 ,
+                 -4, -2, 8]);
+
+    let [L,U] = mat.LUDecomposition();
+    L.Print();
+    invertLowerTriangularMatrix(L).Print()
+}
+
+function Example6() {
+    let mat = new Matrix(3,[2, -1, -2 ,
+                 -4, 6, 3 ,
+                 -4, -2, 8]);
+    mat.Print()
+    mat.Inversion().Print()
+}
 //Example1()
 //Example2()
-Example3()
+//Example3()
+//Example4()
+//Example5()
+//Example6()
+
