@@ -1,5 +1,6 @@
 function Row(arr) {
     this.arr = arr;
+    this.n = arr.length
 }
 
 Row.prototype.DotProduct = function(b) {
@@ -18,6 +19,19 @@ Row.prototype.SetCell = function(i,val) {
     this.arr[i] = val;
 }
 
+Row.prototype.GetSize = function() {
+    return this.n;
+}
+
+Row.prototype.Print = function() {
+    let str = "\n"
+    for (let i = 0; i < this.GetSize(); i++) {
+        str += this.GetCell(i) + " , ";
+    }
+    str =  str.substring(0,str.length-1) + "\n";
+    console.log(str);
+}
+
 function Matrix(n, arr=null) {
     this.n = n; //row/col size n
     if (typeof arr === 'undefined' || arr == null) {
@@ -28,19 +42,19 @@ function Matrix(n, arr=null) {
 }
 
 Matrix.prototype.GetCell = function(i,j) {
-    return this.arr[i*this.n + j];
+    return this.arr[i*this.GetSize() + j];
 }
 
 Matrix.prototype.SetCell = function(i, j ,val) {
-    this.arr[i*this.n + j] = val;
+    this.arr[i*this.GetSize() + j] = val;
 }
 /*
     returns the ith(begins with 0) row as a Row object 
 */
 Matrix.prototype.GetRow = function(i) {
     let row = []
-    for (let j = 0; j < this.n; j++) {
-        row.push(this.arr[i*this.n + j]);
+    for (let j = 0; j < this.GetSize(); j++) {
+        row.push(this.arr[i*this.GetSize() + j]);
     }
     return new Row(row);
 }
@@ -50,32 +64,36 @@ Matrix.prototype.GetRow = function(i) {
 */
 Matrix.prototype.GetCol = function(j) {
     let col = [];
-    for (let i = 0; i < this.n; i++) {
-        col.push(this.arr[i*this.n + j]);
+    for (let i = 0; i < this.GetSize(); i++) {
+        col.push(this.arr[i*this.GetSize() + j]);
     }
     return new Row(col);
 }
 
+Matrix.prototype.GetSize = function() {
+    return this.n;
+}
+
 Matrix.prototype.Print = function() {
     let str = "\n"
-    for (let i = 0; i < this.n; i++) {
-      for (let j = 0; j < this.n; j++) {
-        str += this.GetCell(i,j) + ",";
+    for (let i = 0; i < this.GetSize(); i++) {
+      for (let j = 0; j < this.GetSize(); j++) {
+        str += this.GetCell(i,j) + " , ";
       }
-      str = str.substring(0,str.length-1) + "\n";
+      str = str.substring(0,str.length-2) + "\n";
     }
-    str =  str.substring(0,str.length-1) + "\n";
+    str =  str.substring(0,str.length-2) + "\n";
     console.log(str);
 }
 
 Matrix.prototype.ConvertTo2DArray = function() {
-    let twoDArr = Array.apply(null,Array(this.n)).map(Array.prototype.valueOf,[]);
-    for (let i = 0; i < this.n; i++) {
-        twoDArr[i] = Array.apply(null,Array(this.n)).map(Number.prototype.valueOf,0);
+    let twoDArr = Array.apply(null,Array(this.GetSize())).map(Array.prototype.valueOf,[]);
+    for (let i = 0; i < this.GetSize(); i++) {
+        twoDArr[i] = Array.apply(null,Array(this.GetSize())).map(Number.prototype.valueOf,0);
     }
     
-    for (let i = 0; i < this.n; i++) {
-        for (let j = 0; j < this.n; j++) {
+    for (let i = 0; i < this.GetSize(); i++) {
+        for (let j = 0; j < this.GetSize(); j++) {
             twoDArr[i][j] = this.GetCell(i,j);
         }
     }
@@ -83,10 +101,10 @@ Matrix.prototype.ConvertTo2DArray = function() {
 }
 
 Matrix.prototype.Multiply = function(B) {
-    let result = new Matrix(this.n,Array.apply(null, Array(this.n*this.n)).map(Number.prototype.valueOf,0));
+    let result = new Matrix(this.GetSize(),Array.apply(null, Array(this.GetSize()*this.GetSize())).map(Number.prototype.valueOf,0));
 
-    for (let i = 0; i < this.n; i++) {
-        for (let j = 0; j < B.n; j++) {
+    for (let i = 0; i < this.GetSize(); i++) {
+        for (let j = 0; j < B.GetSize(); j++) {
             result.SetCell(i,j,this.GetRow(i).DotProduct(B.GetCol(j)))
         }
     }
@@ -94,12 +112,12 @@ Matrix.prototype.Multiply = function(B) {
 } 
 
 Matrix.prototype.LUDecomposition = function() {
-    let lower = new Matrix(this.n);
-    let upper = new Matrix(this.n);
+    let lower = new Matrix(this.GetSize());
+    let upper = new Matrix(this.GetSize());
     
-    for (let i = 0; i < this.n; i++) {
+    for (let i = 0; i < this.GetSize(); i++) {
         //U: Upper Triangular Matrix
-        for (let k = i; k < this.n; k++) {
+        for (let k = i; k < this.GetSize(); k++) {
             let sum = 0;
             for (let j = 0; j < i; j++) {
                 sum += (lower.GetCell(i,j) * upper.GetCell(j,k));
@@ -108,7 +126,7 @@ Matrix.prototype.LUDecomposition = function() {
         }
 
         //L: Lower Triangular Matrix
-        for (let k = i; k < this.n; k++) {
+        for (let k = i; k < this.GetSize(); k++) {
             if (i == k) {
                 //Diagonals of lower triangular matrix are 1's
                 lower.SetCell(i,i,1);
@@ -131,7 +149,27 @@ Matrix.prototype.LUDecomposition = function() {
 //solve Lx=b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with forward substitution
 
 function invertUpperTriangularMatrix(M) {
+    let result = new Matrix(M.GetSize())
+    //create result matrix and intialize to identity matrix
+    for (let i = 0; i < result.GetSize(); i++) {
+        result.SetCell(i,i,1);
+    }
 
+    for (let i = 0; i < result.GetSize(); i++) {
+        let x = new Row(Array.apply(null, Array(M.GetSize())).map(Number.prototype.valueOf,0));
+        for (let j = result.GetSize()-1; j >= 0; j--) {
+            if (j == result.GetSize()-1) {
+                result.SetCell(j,i,result.GetCell(j,i)/M.GetCell(j,j));
+            } else {
+                let sum = 0;
+                for (let k = result.GetSize()-1; k > j; k--) {
+                    sum += result.GetCell(k,i) * M.GetCell(j,k);
+                }
+                result.SetCell(j,i,(result.GetCell(j,i)-sum)/M.GetCell(j,j));
+            }           
+        }
+    }
+    return result;
 }
 
 function invertLowerTriangularMatrix(M) {
@@ -155,5 +193,10 @@ function Example2() {
     mat1.Multiply(mat2).Print();
 }
 
-Example1()
-Example2()
+function Example3() {
+    invertUpperTriangularMatrix(new Matrix(3,[2,-1,-2,0,4,-1,0,0,3])).Print()
+}
+
+//Example1()
+//Example2()
+Example3()
