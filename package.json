@@ -1,0 +1,17 @@
+{
+  "name": "matrixlibrary",
+  "version": "1.0.0",
+  "description": "Implementation of Matrices in JavaScript and C++",
+  "main": "matrix.js",
+  "env": {
+    "test": {
+      "plugins": ["@babel/plugin-transform-modules-commonjs"]
+    }
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

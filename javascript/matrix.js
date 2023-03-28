@@ -8,7 +8,7 @@ function Row(arr) {
 Row.prototype.DotProduct = function(b) {
     let result = 0
     for (let i = 0; i < this.arr.length; i++) {
-        result += this.arr[i] * b.arr[i];
+        result += this.GetCell(i) * b.GetCell(i);
     }
     return result;
 }
@@ -86,6 +86,10 @@ Matrix.prototype.Print = function() {
     }
     str =  str.substring(0,str.length-2) + "\n";
     console.log(str);
+}
+
+Matrix.prototype.GetArr = function() {
+    return this.arr;
 }
 
 Matrix.prototype.ConvertTo2DArray = function() {
@@ -255,4 +259,3 @@ function Example6() {
 //Example4()
 //Example5()
 //Example6()
-

@@ -1,0 +1,19 @@
+{
+  "name": "matrixlibrary",
+  "version": "1.0.0",
+  "description": "Implementation of Matrices in JavaScript and C++",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "bench" : "jest --projects jest-bench.config.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "jest-bench": "^29.4.1"
+  }
+}
