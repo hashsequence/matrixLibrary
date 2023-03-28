@@ -1,6 +1,16 @@
-import {Matrix, Row} from "./matrixFractions";
+import {Matrix, Row, Fraction} from "./matrixFractions";
 
 describe("Matrix test", () => {
+    test("test Fraction Class", () => {
+        let f1 = new Fraction(3,5);
+        let f2 = new Fraction(-2,8);
+        expect(f1.Sum(f2).ToNumber()).toBe(.35);
+        expect(f1.Difference(f2).ToNumber()).toBe(.85);
+        expect(f1.Product(f2).ToNumber()).toBe(-6/40);
+        expect(f1.Quotient(f2).ToNumber()).toBe(-24/10);
+        expect(f1.Product(7)).toBe(undefined);
+       
+    });
     test("decomping [2, -1, -2 ,-4, 6, 3 ,-4, -2, 8] ", () => {
             let M = new Matrix(3,[2, -1, -2 , -4, 6, 3 , -4, -2, 8]);
             let [L,U] = M.LUDecomposition();

@@ -1,4 +1,4 @@
-export {Matrix, Row}
+export {Matrix, Row, Fraction}
 
 function Fraction(n,d=1) {
     this.n = n;
@@ -6,24 +6,33 @@ function Fraction(n,d=1) {
 }
 
 Fraction.prototype.Sum = function(b) {
+    if (!(b instanceof Fraction)) {
+        return undefined;
+    }
     if (!Number.isInteger(this.n) || !Number.isInteger(b.n)) {
-        return new Fraction(this.n + b);
+        return new Fraction(this.n + b.n);
     }
     let n = this.n * b.d + b.n * this.d;
     let d = this.d * b.d;
     return new Fraction(n/gcd(n,d),d/gcd(n,d))
 }
 Fraction.prototype.Difference = function(b) {
+    if (!(b instanceof Fraction)) {
+        return undefined;
+    }
     if (!Number.isInteger(this.n) || !Number.isInteger(b.n)) {
-        return new Fraction(this.n - b);
+        return new Fraction(this.n - b.n);
     }
     let n = this.n * b.d - b.n * this.d;
     let d = this.d * b.d;
     return new Fraction(n/gcd(n,d),d/gcd(n,d))
 }
 Fraction.prototype.Product = function(b) {
+    if (!(b instanceof Fraction)) {
+        return undefined;
+    }
     if (!Number.isInteger(this.n) || !Number.isInteger(b.n)) {
-        return new Fraction(this.n * b);
+        return new Fraction(this.n * b.n);
     }
     let n = this.n * b.n;
     let d = this.d * b.d;
@@ -31,8 +40,11 @@ Fraction.prototype.Product = function(b) {
 }
 
 Fraction.prototype.Quotient = function(b) {
+    if (!(b instanceof Fraction)) {
+        return undefined;
+    }
     if (!Number.isInteger(this.n) || !Number.isInteger(b.n)) {
-        return new Fraction(this.n / b);
+        return new Fraction(this.n / b.n);
     }
     let n = this.n * b.d;
     let d = this.d * b.n;
