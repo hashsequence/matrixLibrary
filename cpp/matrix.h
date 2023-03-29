@@ -21,14 +21,14 @@ class Row
 
         Row(int n, vector<int> arr);
 
-        int GetCell(int i);
+        int GetCell(int i) const;
 
         void SetCell(int i, int val);
 
-        int GetSize();
+        int GetRowSize() const;
 
-        void Print();
-}
+        void Print() const;
+};
 
 class Matrix
 {
@@ -41,37 +41,35 @@ class Matrix
 
         Matrix(int n);
     
-        Matrix(vector<int> arr);
-    
         Matrix(int n, vector<int> arr);
     
-        int GetCell(int i, int j);
+        int GetCell(int i, int j) const;
     
         void SetCell(int i, int j, int val);
     
-        Row GetRow(int i);
+        Row* GetRow(int i) const;
     
-        Row GetCol(int j);
+        Row* GetCol(int j) const;
     
-        int GetSize();
+        int GetRowSize() const;
     
-        void Print();
+        void Print() const;
     
-        vector<int> GetArr();
+        vector<int> GetArr() const;
     
-        vector<vector<int> ConvertTo2DArray();
+        vector<vector<int>> ConvertTo2DArray() const;
     
-        Matrix Multiply(Matrix B);
+        Matrix* Multiply(Matrix* B);
     
-        Matrix LUDecomposition();
+        Matrix* LUDecomposition();
     
-        Matrix Inversion();
+        Matrix* Inversion();
     
-        static Matrix InvertUpperTriangularMatrix(Matrix M);
+        static Matrix* InvertUpperTriangularMatrix(Matrix* M);
     
-        static Matrix InvertLowerTriangularMatrix(Matrix M);
+        static Matrix* InvertLowerTriangularMatrix(Matrix* M);
 
 
-}
+};
 
 #endif
