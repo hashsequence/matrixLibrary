@@ -14,7 +14,7 @@ Fraction.prototype.Sum = function(b) {
     }
     let n = this.n * b.d + b.n * this.d;
     let d = this.d * b.d;
-    return new Fraction(n/gcd(n,d),d/gcd(n,d))
+    return new Fraction(n/Fraction.Gcd(n,d),d/Fraction.Gcd(n,d))
 }
 Fraction.prototype.Difference = function(b) {
     if (!(b instanceof Fraction)) {
@@ -25,7 +25,7 @@ Fraction.prototype.Difference = function(b) {
     }
     let n = this.n * b.d - b.n * this.d;
     let d = this.d * b.d;
-    return new Fraction(n/gcd(n,d),d/gcd(n,d))
+    return new Fraction(n/Fraction.Gcd(n,d),d/Fraction.Gcd(n,d))
 }
 Fraction.prototype.Product = function(b) {
     if (!(b instanceof Fraction)) {
@@ -36,7 +36,7 @@ Fraction.prototype.Product = function(b) {
     }
     let n = this.n * b.n;
     let d = this.d * b.d;
-    return new Fraction(n/gcd(n,d),d/gcd(n,d))
+    return new Fraction(n/Fraction.Gcd(n,d),d/Fraction.Gcd(n,d))
 }
 
 Fraction.prototype.Quotient = function(b) {
@@ -48,7 +48,7 @@ Fraction.prototype.Quotient = function(b) {
     }
     let n = this.n * b.d;
     let d = this.d * b.n;
-    return new Fraction(n/gcd(n,d),d/gcd(n,d))
+    return new Fraction(n/Fraction.Gcd(n,d),d/Fraction.Gcd(n,d))
 }
 
 Fraction.prototype.Text = function() {
@@ -62,7 +62,7 @@ Fraction.prototype.ToNumber = function() {
     return this.n/this.d;
 }
 
-function gcd(a, b){
+Fraction.Gcd = function(a, b){
     for (;a > 0 && b > 0;) {
           if (a > b) {
               a = a % b;
@@ -77,7 +77,7 @@ function gcd(a, b){
       return a;
   }
 
-function ConvertArrayOfNumbersToArrayOfFractions(arr) {
+Fraction.ConvertArrayOfNumbersToArrayOfFractions = function(arr) {
     let result = [];
     for (let i = 0; i < arr.length; i++) {
         result.push(new Fraction(arr[i]));
@@ -125,7 +125,7 @@ function Matrix(n, arr=null) {
     if (typeof arr === 'undefined' || arr == null) {
         this.arr = Array.apply(null, Array(n*n)).map(()=>{return new Fraction(0)}); //internal 1-D array
     } else {
-        this.arr = ConvertArrayOfNumbersToArrayOfFractions(arr); //internal 1-D array
+        this.arr = Fraction.ConvertArrayOfNumbersToArrayOfFractions(arr); //internal 1-D array
     }
 }
 
@@ -248,7 +248,7 @@ Matrix.prototype.LUDecomposition = function() {
 // multiply U^-1 * L^-1 will tak O(n^3)
 Matrix.prototype.Inversion = function() {
     let [L,U] = this.LUDecomposition();
-    return invertUpperTriangularMatrix(U).Multiply(invertLowerTriangularMatrix(L));
+    return Matrix.InvertUpperTriangularMatrix(U).Multiply(Matrix.InvertLowerTriangularMatrix(L));
 }
 //Inverse of an upper triangular matrix is upper triangular
 //inverse of lower triangular matrix is lower triangular
@@ -256,7 +256,7 @@ Matrix.prototype.Inversion = function() {
 //solve Ux = b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with backwards substitution
 //solve Lx=b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with forward substitution
 
-function invertUpperTriangularMatrix(M) {
+Matrix.InvertUpperTriangularMatrix = function(M) {
     let result = new Matrix(M.GetSize())
     //create result matrix and intialize to identity matrix
     for (let i = 0; i < result.GetSize(); i++) {
@@ -280,7 +280,7 @@ function invertUpperTriangularMatrix(M) {
     return result;
 }
 
-function invertLowerTriangularMatrix(M) {
+Matrix.InvertLowerTriangularMatrix = function(M) {
     let result = new Matrix(M.GetSize())
     //create result matrix and intialize to identity matrix
     for (let i = 0; i < result.GetSize(); i++) {
@@ -321,7 +321,7 @@ function Example2() {
 }
 
 function Example3() {
-    invertUpperTriangularMatrix(new Matrix(3,[2,-1,-2,0,4,-1,0,0,3])).Print()
+    Matrix.InvertUpperTriangularMatrix(new Matrix(3,[2,-1,-2,0,4,-1,0,0,3])).Print()
 }
 
 function Example4() {
@@ -334,7 +334,7 @@ function Example4() {
     ])
     let [L,U] = mat1.LUDecomposition()
     L.Print()
-    invertLowerTriangularMatrix(L).Print()
+    Matrix.InvertLowerTriangularMatrix(L).Print()
 }
 
 function Example5() {
@@ -344,7 +344,7 @@ function Example5() {
 
     let [L,U] = mat.LUDecomposition();
     L.Print();
-    invertLowerTriangularMatrix(L).Print()
+    Matrix.InvertLowerTriangularMatrix(L).Print()
 }
 
 function Example6() {
