@@ -10,20 +10,20 @@ class Row
 {
     private:
 
-        vector<int> arr;
+        vector<double> arr;
         int n;
 
     public:
 
         Row(int n);
 
-        Row(vector<int> arr);
+        Row(vector<double> arr);
 
-        Row(int n, vector<int> arr);
+        Row(int n, vector<double> arr);
 
-        int GetCell(int i) const;
+        double GetCell(int i) const;
 
-        void SetCell(int i, int val);
+        void SetCell(int i, double val);
 
         int GetRowSize() const;
 
@@ -34,18 +34,18 @@ class Matrix
 {
     private:
 
-        vector<int> arr;
+        vector<double> arr;
         int n;
 
     public:
 
         Matrix(int n);
     
-        Matrix(int n, vector<int> arr);
+        Matrix(int n, vector<double> arr);
     
-        int GetCell(int i, int j) const;
+        double GetCell(int i, int j) const;
     
-        void SetCell(int i, int j, int val);
+        void SetCell(int i, int j, double val);
     
         Row* GetRow(int i) const;
     
@@ -55,9 +55,9 @@ class Matrix
     
         void Print() const;
     
-        vector<int> GetArr() const;
+        vector<double> GetArr() const;
     
-        vector<vector<int>> ConvertTo2DArray() const;
+        vector<vector<double>> ConvertTo2DArray() const;
     
         Matrix* Multiply(Matrix* B);
     

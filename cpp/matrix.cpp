@@ -9,21 +9,21 @@ Row::Row(int n) {
     arr.resize(n);
 }
 
-Row::Row(vector<int> arr) {
+Row::Row(vector<double> arr) {
     this->n=arr.size();
     this->arr=arr;
 }
 
-Row::Row(int n, vector<int> arr) {
+Row::Row(int n, vector<double> arr) {
     this->n=n;
     this->arr = arr;
 }
 
-int Row::GetCell(int i) const {
+double Row::GetCell(int i) const {
     return arr[i];
 }
 
-void Row::SetCell(int i, int val) {
+void Row::SetCell(int i, double val) {
     arr[i] = val;
 }
 
@@ -46,21 +46,21 @@ Matrix::Matrix(int n) {
 }
 
 
-Matrix::Matrix(int n, vector<int> arr) {
+Matrix::Matrix(int n, vector<double> arr) {
     this->n=n;
     this->arr=arr;
 }
 
-int Matrix::GetCell(int i, int j) const {
+double Matrix::GetCell(int i, int j) const {
     return arr[i*GetRowSize() + j];
 }
 
-void Matrix::SetCell(int i, int j, int val) {
+void Matrix::SetCell(int i, int j, double val) {
     arr[i*GetRowSize() + j] = val;
 }
 
 Row* Matrix::GetRow(int i) const {
-    vector<int> row;
+    vector<double> row;
     for (int j = 0; j < GetRowSize(); j++) {
         row.push_back(arr[i*GetRowSize() + j]);
     }
@@ -68,7 +68,7 @@ Row* Matrix::GetRow(int i) const {
 }
 
 Row* Matrix::GetCol(int j) const {
-    vector<int> col;
+    vector<double> col;
     for (int i = 0; i < GetRowSize(); i++) {
         col.push_back(arr[i*GetRowSize() + j]);
     }
@@ -91,12 +91,12 @@ void Matrix::Print() const {
     cout << str << endl;
 }
 
-vector<int> Matrix::GetArr() const {
+vector<double> Matrix::GetArr() const {
     return arr;
 }
 
-vector<vector<int>> Matrix::ConvertTo2DArray() const {
-    vector<vector<int>> twoDArr(GetRowSize(),vector<int>(GetRowSize(),0));
+vector<vector<double>> Matrix::ConvertTo2DArray() const {
+    vector<vector<double>> twoDArr(GetRowSize(),vector<double>(GetRowSize(),0));
     for (int i = 0; i < GetRowSize(); i++) {
         for (int j = 0; j < GetRowSize(); j++) {
             twoDArr[i][j] = GetCell(i,j);
