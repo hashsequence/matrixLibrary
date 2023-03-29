@@ -1,6 +1,6 @@
 # matrixLibrary
 Implementation of Matrices in JavaScript and C++
 
-[javascript](javascript/README.md)
+[javascript](javascript/)
 
-[cpp](cpp/README.md)
+[cpp](cpp/
