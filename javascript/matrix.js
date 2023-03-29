@@ -171,7 +171,6 @@ Matrix.InvertUpperTriangularMatrix = function(M) {
     }
 
     for (let i = 0; i < result.GetRowSize(); i++) {
-        let x = new Row(Array.apply(null, Array(M.GetRowSize())).map(Number.prototype.valueOf,0));
         for (let j = result.GetRowSize()-1; j >= 0; j--) {
             let sum = 0;
             for (let k = result.GetRowSize()-1; k > j; k--) {
@@ -190,7 +189,6 @@ Matrix.InvertLowerTriangularMatrix = function(M) {
         result.SetCell(i,i,1);
     }
     for (let i = 0; i < result.GetRowSize(); i++) {
-        let x = new Row(Array.apply(null, Array(M.GetRowSize())).map(Number.prototype.valueOf,0));
         for (let j = 0; j < result.GetRowSize(); j++) {
             let sum = 0;
             for (let k = 0; k < j; k++) {

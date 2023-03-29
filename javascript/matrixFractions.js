@@ -264,8 +264,6 @@ Matrix.InvertUpperTriangularMatrix = function(M) {
     }
 
     for (let i = 0; i < result.GetRowSize(); i++) {
-        //let x = new Row(Array.apply(null, Array(M.GetRowSize())).map((Number.prototype.valueOf,0)));
-        let x = new Row(Array.apply(null, Array(M.GetRowSize())).map(()=>{return new Fraction(0)}));
         for (let j = result.GetRowSize()-1; j >= 0; j--) {
             //let sum = 0;
             let sum = new Fraction(0);
@@ -287,8 +285,6 @@ Matrix.InvertLowerTriangularMatrix = function(M) {
         result.SetCell(i,i,new Fraction(1));
     }
     for (let i = 0; i < result.GetRowSize(); i++) {
-        //let x = new Row(Array.apply(null, Array(M.GetRowSize())).map((Number.prototype.valueOf,0)));
-        let x = new Row(Array.apply(null, Array(M.GetRowSize())).map(()=>{return new Fraction(0)}));
         for (let j = 0; j < result.GetRowSize(); j++) {
             //let sum = 0;
             let sum = new Fraction(0);

@@ -17,9 +17,9 @@ class Row
 
         Row(int n);
 
-        Row(vector<double> arr);
+        Row(vector<double>& arr);
 
-        Row(int n, vector<double> arr);
+        Row(int n, vector<double>& arr);
 
         double GetCell(int i) const;
 
@@ -28,6 +28,8 @@ class Row
         int GetRowSize() const;
 
         void Print() const;
+
+        double DotProduct(Row& b) const;
 };
 
 class Matrix
@@ -41,7 +43,7 @@ class Matrix
 
         Matrix(int n);
     
-        Matrix(int n, vector<double> arr);
+        Matrix(int n, vector<double>& arr);
     
         double GetCell(int i, int j) const;
     
@@ -59,15 +61,15 @@ class Matrix
     
         vector<vector<double>> ConvertTo2DArray() const;
     
-        Matrix* Multiply(Matrix* B);
+        Matrix* Multiply(Matrix& B);
     
-        Matrix* LUDecomposition();
+        vector<Matrix*> LUDecomposition();
     
         Matrix* Inversion();
     
-        static Matrix* InvertUpperTriangularMatrix(Matrix* M);
+        static Matrix* InvertUpperTriangularMatrix(Matrix& M);
     
-        static Matrix* InvertLowerTriangularMatrix(Matrix* M);
+        static Matrix* InvertLowerTriangularMatrix(Matrix& M);
 
 
 };

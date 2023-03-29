@@ -9,12 +9,12 @@ Row::Row(int n) {
     arr.resize(n);
 }
 
-Row::Row(vector<double> arr) {
+Row::Row(vector<double>& arr) {
     this->n=arr.size();
     this->arr=arr;
 }
 
-Row::Row(int n, vector<double> arr) {
+Row::Row(int n, vector<double>& arr) {
     this->n=n;
     this->arr = arr;
 }
@@ -40,13 +40,22 @@ void Row::Print() const {
     cout << str << endl;
 }
 
+double Row::DotProduct(Row& b) const {
+    double result = 0;
+    for (int i = 0 ; i < GetRowSize(); i++) {
+        result += GetCell(i) * b.GetCell(i);
+    }
+    return result;
+}
+
+
 Matrix::Matrix(int n) {
     this->n=n;
     arr.resize(n*n);
 }
 
 
-Matrix::Matrix(int n, vector<double> arr) {
+Matrix::Matrix(int n, vector<double>& arr) {
     this->n=n;
     this->arr=arr;
 }
@@ -105,22 +114,102 @@ vector<vector<double>> Matrix::ConvertTo2DArray() const {
     return twoDArr;
 }
 
-Matrix* Matrix::Multiply(Matrix* B) {
-    return nullptr;
+Matrix* Matrix::Multiply(Matrix& B) {
+    Matrix* result = new Matrix(GetRowSize());
+
+    for (int i = 0;i < GetRowSize(); i++) {
+        for (int j = 0; j < B.GetRowSize(); j++) {
+            result->SetCell(i,j,GetRow(i)->DotProduct(*(B.GetCol(j))));
+        }
+    }
+    return result;
 }
 
-Matrix* Matrix::LUDecomposition() {
-    return nullptr;
+vector<Matrix*> Matrix::LUDecomposition() {
+    vector<Matrix*> result(2,nullptr);
+    result[0] = new Matrix(GetRowSize());
+    result[1] = new Matrix(GetRowSize());
+    Matrix* lower = result[0];
+    Matrix* upper = result[1];
+
+    for (int i = 0; i < GetRowSize(); i++) {
+        //U: Upper Triangular Matrix
+        for (int k = i; k < GetRowSize(); k++) {
+            double sum = 0;
+            for (int j = 0; j < i; j++) {
+                sum += lower->GetCell(i,j) * upper->GetCell(j,k);
+            }
+            upper->SetCell(i,k,GetCell(i,k)-sum);
+        }
+
+         //L: Lower Triangular Matrix
+         for (int k = i; k < GetRowSize(); k++) {
+            if (i == k) {
+                //Diagonals of lower triangular matrix are 1's
+                lower->SetCell(i,i,1);
+            } else {
+                double sum = 0;
+                for (int j = 0; j < i; j++) {
+                    sum += lower->GetCell(k,j) * upper->GetCell(j,i);
+                }
+                lower->SetCell(k,i,(GetCell(k,i) - sum) / upper->GetCell(i,i));
+            }
+         }
+    }
+    return result;
 }
 
+//Inversion algorithm
+//LU Decomposition time complexity O(n^3)
+//since A=LU -> A^-1 = (LU)^-1 ==>  A^-1 = U^-1 * L^-1 (matrix multiplication is not commutative so U^-1 * L^-1)
+//so invert U and L which would take O(n^3) 
+// multiply U^-1 * L^-1 will tak O(n^3)
 Matrix* Matrix::Inversion() {
-    return nullptr;
+    vector<Matrix*> LU = LUDecomposition();
+    Matrix* InvertedMatrix = InvertUpperTriangularMatrix(*LU[1])->Multiply(*InvertLowerTriangularMatrix(*LU[0]));
+    for (int i = 0; i < LU.size(); i++) {
+        delete LU[i];
+    }
+    return InvertedMatrix;
 }
 
-Matrix* Matrix::InvertUpperTriangularMatrix(Matrix* M) {
-   return nullptr;
+//Inverse of an upper triangular matrix is upper triangular
+//inverse of lower triangular matrix is lower triangular
+//to compute the inverse of a triangular matrix,
+//solve Ux = b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with backwards substitution
+//solve Lx=b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with forward substitution
+Matrix* Matrix::InvertUpperTriangularMatrix(Matrix& M) {
+    Matrix* result = new Matrix(M.GetRowSize());
+    for (int i = 0; i < result->GetRowSize(); i++) {
+        result->SetCell(i,i,1);
+    }
+
+    for (int i = 0; i < result->GetRowSize(); i++) {
+        for (int j = result->GetRowSize()-1; j>=0; j--) {
+            double sum = 0;
+            for (int k = result->GetRowSize()-1; k > j; k--) {
+                sum += result->GetCell(k,i)*M.GetCell(j,k);
+            }
+            result->SetCell(j,i,(result->GetCell(j,i)-sum)/M.GetCell(j,j));
+        }
+    }
+    return result;
 }
 
-Matrix* Matrix::InvertLowerTriangularMatrix(Matrix* M) {
-    return nullptr;
+Matrix* Matrix::InvertLowerTriangularMatrix(Matrix& M) {
+    Matrix* result = new Matrix(M.GetRowSize());
+    for (int i = 0; i < result->GetRowSize(); i++) {
+        result->SetCell(i,i,1);
+    }
+
+    for (int i = 0; i < result->GetRowSize(); i++) {
+        for (int j = 0; j < result->GetRowSize(); j++) {
+            double sum = 0;
+            for (int k = 0; k < j;  k++) {
+                sum += result->GetCell(k,i)*M.GetCell(j,k);
+            }
+            result->SetCell(j,i,(result->GetCell(j,i)-sum)/M.GetCell(j,j));
+        }
+    }
+    return result;
 }
