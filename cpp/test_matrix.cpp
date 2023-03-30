@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
+
 using namespace std;
 
 void test1() {
@@ -10,6 +11,8 @@ void test1() {
     vector<double> vec2{2,-1,-2,0,4,-1,0,0,3};
     Matrix A(3,vec1);
     Matrix B(3,vec2);
+    A.Print();
+    B.Print();
     Matrix* R = A.Multiply(B);
     R->Print();
     delete R;
