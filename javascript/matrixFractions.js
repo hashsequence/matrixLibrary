@@ -1,6 +1,13 @@
 export {Matrix, Row, Fraction}
 
 function Fraction(n,d=1) {
+
+    let isNNeg = n < 0;
+    let isDNeg = d < 0;
+    if ((isNNeg && isDNeg) || (!isNNeg && isDNeg)) {
+        n *= -1;
+        d *=  -1;
+    }
     this.n = n;
     this.d = d;
 }
@@ -14,8 +21,17 @@ Fraction.prototype.Sum = function(b) {
     }
     let n = this.n * b.d + b.n * this.d;
     let d = this.d * b.d;
-    return new Fraction(n/Fraction.Gcd(n,d),d/Fraction.Gcd(n,d))
+
+    let isNNeg = n < 0;
+    let isDNeg = d < 0;
+    if ((isNNeg && isDNeg) || (!isNNeg && isDNeg)) {
+        n *= -1;
+        d *=  -1;
+    }
+
+    return new Fraction(n/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)),d/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)))
 }
+
 Fraction.prototype.Difference = function(b) {
     if (!(b instanceof Fraction)) {
         return undefined;
@@ -25,8 +41,17 @@ Fraction.prototype.Difference = function(b) {
     }
     let n = this.n * b.d - b.n * this.d;
     let d = this.d * b.d;
-    return new Fraction(n/Fraction.Gcd(n,d),d/Fraction.Gcd(n,d))
+
+    let isNNeg = n < 0;
+    let isDNeg = d < 0;
+    if ((isNNeg && isDNeg) || (!isNNeg && isDNeg)) {
+        n *= -1;
+        d *=  -1;
+    }
+
+    return new Fraction(n/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)),d/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)))
 }
+
 Fraction.prototype.Product = function(b) {
     if (!(b instanceof Fraction)) {
         return undefined;
@@ -36,7 +61,15 @@ Fraction.prototype.Product = function(b) {
     }
     let n = this.n * b.n;
     let d = this.d * b.d;
-    return new Fraction(n/Fraction.Gcd(n,d),d/Fraction.Gcd(n,d))
+
+    let isNNeg = n < 0;
+    let isDNeg = d < 0;
+    if ((isNNeg && isDNeg) || (!isNNeg && isDNeg)) {
+        n *= -1;
+        d *=  -1;
+    }
+
+    return new Fraction(n/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)),d/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)))
 }
 
 Fraction.prototype.Quotient = function(b) {
@@ -48,7 +81,56 @@ Fraction.prototype.Quotient = function(b) {
     }
     let n = this.n * b.d;
     let d = this.d * b.n;
-    return new Fraction(n/Fraction.Gcd(n,d),d/Fraction.Gcd(n,d))
+
+    let isNNeg = n < 0;
+    let isDNeg = d < 0;
+    if ((isNNeg && isDNeg) || (!isNNeg && isDNeg)) {
+        n *= -1;
+        d *=  -1;
+    }
+
+    return new Fraction(n/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)),d/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)))
+}
+
+Fraction.prototype.mod = function(b) {
+    //mod(a, n) = a - n * floor(a / n)
+    let s1 = this.n * b.d;
+    let s2 = this.d * b.n;
+    let s3 = s1 / s2;
+    let s4 = Math.floor(s3);
+    let s5 = b.n * s4;
+    let s6 = this.n * b.d;
+    let s7 = s5 * this.d;
+    let n = s6 - s7;
+    let d = this.d * b.d;
+    
+    let isNNeg = n < 0;
+    let isDNeg = d < 0;
+    if ((isNNeg && isDNeg) || (!isNNeg && isDNeg)) {
+        n *= -1;
+        d *=  -1;
+    }
+    //if want modulo to be more like rem (remainder) than uncomment below
+    
+    if (n < 0) {
+        //if negative then perform
+        //n/d + b 
+        let z1 = n * b.d;
+        let z2 = Fraction.Absolute(b.n) * d;
+        let z3 = b.d * d;
+
+        n = z1 + z2;
+        d = z3;
+
+        isNNeg = n < zero;
+        isDNeg = d < zero;
+        if ((isNNeg && isDNeg) || (!isNNeg && isDNeg)) {
+            n *= -1;
+            d *=  -1;
+        }
+    } 
+    
+    return new Fraction(n/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)),d/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)))
 }
 
 Fraction.prototype.Text = function() {
@@ -77,6 +159,13 @@ Fraction.Gcd = function(a, b){
       return a;
   }
 
+Fraction.Absolute = function(n) {
+    if (n < 0)
+    {
+        n *= -1;
+    }
+    return n;
+}
 Fraction.ConvertArrayOfNumbersToArrayOfFractions = function(arr) {
     let result = [];
     for (let i = 0; i < arr.length; i++) {

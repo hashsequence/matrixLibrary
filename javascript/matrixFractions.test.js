@@ -29,4 +29,38 @@ describe("Matrix test", () => {
         expect(M.Inversion().GetArr()).toStrictEqual([2.25, 0.5, 0.375, 5/6, 1/3,1/12,4/3,1/3,1/3]);
     });
 
+    test("inverting [5,	7,	9,	4,   4,2,	4,	7,	1,	4,7,	9,	3,	1,	2,5,	6,	3,	6,	2,1,	4,	2,	5,	2]", () => {
+        let M = new Matrix(5,[5,	7,	9,	4,   4,2,	4,	7,	1,	4,7,	9,	3,	1,	2,5,	6,	3,	6,	2,1,	4,	2,	5,	2]);
+        let [L,U] = M.LUDecomposition();
+        expect(M.Inversion().GetArr()).toStrictEqual([-43/181,	44/181,	-11/181,	94/181,	-85/181,
+        42/181,	-107/362,	36/181,	-171/362,	145/362,
+            80/181,	-109/362,	-9/181,	-93/362,	9/362,
+            8/181,	-29/362,	-19/181,	45/362,	19/362,
+            -325/362,	703/724,	-10/181,	457/724,	-161/724]);
+    });
+
+    test("Fraction(13,1) mod Fraction(3,1)", () => {
+        let f1 = new Fraction(13);
+        let f2 = new Fraction(3)
+        expect(f1.mod(f2).ToNumber()).toBe(1);
+    });
+
+    test("Fraction(-13,1) mod Fraction(3,1)", () => {
+        let f1 = new Fraction(-13);
+        let f2 = new Fraction(3)
+        expect(f1.mod(f2).ToNumber()).toBe(-1);
+    });
+
+    test("Fraction(13,1) mod Fraction(-3,1)", () => {
+        let f1 = new Fraction(13);
+        let f2 = new Fraction(-3)
+        expect(f1.mod(f2).ToNumber()).toBe(1);
+    });
+
+    test("Fraction(-13,1) mod Fraction(-3,1)", () => {
+        let f1 = new Fraction(-13);
+        let f2 = new Fraction(-3)
+        expect(f1.mod(f2).ToNumber()).toBe(-1);
+    });
+
 });
