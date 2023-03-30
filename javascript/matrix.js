@@ -153,7 +153,7 @@ Matrix.prototype.LUDecomposition = function() {
 //since A=LU -> A^-1 = (LU)^-1 ==>  A^-1 = U^-1 * L^-1 (matrix multiplication is not commutative so U^-1 * L^-1)
 //so invert U and L which would take O(n^3) 
 // multiply U^-1 * L^-1 will tak O(n^3)
-Matrix.prototype.Inversion = function() {
+Matrix.prototype.LUInversion = function() {
     let [L,U] = this.LUDecomposition();
     return Matrix.InvertUpperTriangularMatrix(U).Multiply(Matrix.InvertLowerTriangularMatrix(L));
 }
@@ -249,7 +249,7 @@ function Example6() {
                  -4, 6, 3 ,
                  -4, -2, 8]);
     mat.Print()
-    mat.Inversion().Print()
+    mat.LUInversion().Print()
 }
 //Example1()
 //Example2()

@@ -65,7 +65,7 @@ class Matrix
     
         vector<Matrix*> LUDecomposition();
     
-        Matrix* Inversion();
+        Matrix* LUInversion();
     
         static Matrix* InvertUpperTriangularMatrix(Matrix& M);
     

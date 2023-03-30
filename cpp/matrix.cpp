@@ -164,7 +164,7 @@ vector<Matrix*> Matrix::LUDecomposition() {
 //since A=LU -> A^-1 = (LU)^-1 ==>  A^-1 = U^-1 * L^-1 (matrix multiplication is not commutative so U^-1 * L^-1)
 //so invert U and L which would take O(n^3) 
 // multiply U^-1 * L^-1 will tak O(n^3)
-Matrix* Matrix::Inversion() {
+Matrix* Matrix::LUInversion() {
     vector<Matrix*> LU = LUDecomposition();
     Matrix* InvertedMatrix = InvertUpperTriangularMatrix(*LU[1])->Multiply(*InvertLowerTriangularMatrix(*LU[0]));
     for (int i = 0; i < LU.size(); i++) {

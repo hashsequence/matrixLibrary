@@ -13,6 +13,6 @@ benchmarkSuite("Matrix using custom Fractions Class instead of Numbers", {
   
     ["inverting [2, -1, -2 ,-4, 6, 3 ,-4, -2, 8] "]: () => {
         let M = new Matrix(3,[2, -1, -2 , -4, 6, 3 , -4, -2, 8]);
-        M.Inversion();
+        M.LUInversion();
     },
   });

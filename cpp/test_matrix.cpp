@@ -62,7 +62,7 @@ void test5() {
        };
     Matrix A(5,vec1);
     A.Print();
-    Matrix* A_inverted = A.Inversion();
+    Matrix* A_inverted = A.LUInversion();
     A_inverted -> Print();
     delete A_inverted;
 }

@@ -49,6 +49,14 @@ class Fraction
             this->d = o.d;
         }
 
+        U GetNumerator() {
+            return this->n;
+        }
+
+        U GetDenominator() {
+            return this->d;
+        }
+
         Fraction& operator=(Fraction const & b) {
             if (this == &b) {
 		        return *this;
@@ -390,8 +398,12 @@ class Matrix
     
         vector<Matrix*> LUDecomposition();
     
-        Matrix* Inversion();
-    
+        Matrix* LUInversion();
+
+        void GetCofactor(Matrix& coFactorMatrix, int p, int q, int n);
+
+        W Determinant();
+
         static Matrix* InvertUpperTriangularMatrix(Matrix& M);
     
         static Matrix* InvertLowerTriangularMatrix(Matrix& M);

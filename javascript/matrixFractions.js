@@ -92,12 +92,12 @@ Fraction.prototype.Quotient = function(b) {
     return new Fraction(n/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)),d/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)))
 }
 
-Fraction.prototype.mod = function(b) {
+Fraction.prototype.Mod = function(b) {
     //mod(a, n) = a - n * floor(a / n)
-    let s1 = this.n * b.d;
+    let s1 = this.n * b.d; 
     let s2 = this.d * b.n;
     let s3 = s1 / s2;
-    let s4 = Math.floor(s3);
+    let s4 = Math.trunc(s3);//trunc instead of floor since javascript for floor of negative numbers moves away from 0
     let s5 = b.n * s4;
     let s6 = this.n * b.d;
     let s7 = s5 * this.d;
@@ -111,7 +111,7 @@ Fraction.prototype.mod = function(b) {
         d *=  -1;
     }
     //if want modulo to be more like rem (remainder) than uncomment below
-    
+    /*
     if (n < 0) {
         //if negative then perform
         //n/d + b 
@@ -122,14 +122,14 @@ Fraction.prototype.mod = function(b) {
         n = z1 + z2;
         d = z3;
 
-        isNNeg = n < zero;
-        isDNeg = d < zero;
+        isNNeg = n < 0;
+        isDNeg = d < 0;
         if ((isNNeg && isDNeg) || (!isNNeg && isDNeg)) {
             n *= -1;
             d *=  -1;
         }
     } 
-    
+    */
     return new Fraction(n/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)),d/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)))
 }
 
@@ -330,12 +330,14 @@ Matrix.prototype.LUDecomposition = function() {
     return [lower,upper];
 }
 
-//Inversion algorithm
+//LUInversion algorithm
 //LU Decomposition time complexity O(n^3)
+//A is nonsingular if and only if A is invertible
+//A non-singular matrix is a square one whose determinant is not zero
 //since A=LU -> A^-1 = (LU)^-1 ==>  A^-1 = U^-1 * L^-1 (matrix multiplication is not commutative so U^-1 * L^-1)
 //so invert U and L which would take O(n^3) 
 // multiply U^-1 * L^-1 will tak O(n^3)
-Matrix.prototype.Inversion = function() {
+Matrix.prototype.LUInversion = function() {
     let [L,U] = this.LUDecomposition();
     return Matrix.InvertUpperTriangularMatrix(U).Multiply(Matrix.InvertLowerTriangularMatrix(L));
 }
@@ -344,6 +346,55 @@ Matrix.prototype.Inversion = function() {
 //to compute the inverse of a triangular matrix,
 //solve Ux = b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with backwards substitution
 //solve Lx=b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with forward substitution
+
+Matrix.prototype.GetCofactor = function(coFactorMatrix, p, q, n) {
+    let i = 0, j = 0;
+ 
+    // Looping for each element of the matrix
+    for (let row = 0; row < n; row++) {
+        for ( let col = 0; col < n; col++) {
+            //  Copying into temporary matrix only those
+            //  element which are not in given row and
+            //  column
+            if (row != p && col != q) {
+                coFactorMatrix.SetCell(i,j,this.GetCell(row,col));
+                j++;
+                // Row is filled, so increase row index and
+                // reset col index
+                if (j == n - 1) {
+                    j = 0;
+                    i++;
+                }
+            }
+        }
+    }
+}
+
+Matrix.prototype.Determinant = function()
+{
+    let D = new Fraction(0); // Initialize result
+    let negOne = new Fraction(-1);
+    // Base case : if matrix contains single element
+    if (this.GetRowSize() == 1) {
+        return this.GetCell(0,0);
+    }
+   
+    let coFactorMatrix = new Matrix(this.GetRowSize()-1);// To store cofactors
+
+   
+    let sign = new Fraction(1); // To store sign multiplier
+   
+    // Iterate for each element of first row
+    for (let f = 0; f < this.GetRowSize(); f++)
+    {
+        // Getting Cofactor of A[0][f]
+        this.GetCofactor(coFactorMatrix, 0, f, this.GetRowSize());
+        D = D.Sum(sign.Product(this.GetCell(0,f).Product(coFactorMatrix.Determinant())));
+        // terms are to be added with alternate sign
+        sign = sign.Product(negOne);
+    }
+    return D;
+}
 
 Matrix.InvertUpperTriangularMatrix = function(M) {
     let result = new Matrix(M.GetRowSize())
@@ -437,12 +488,32 @@ function Example6() {
                  -4, 6, 3 ,
                  -4, -2, 8]);
     mat.Print()
-    mat.Inversion().Print()
+    mat.LUInversion().Print()
 }
+
+function Example7() {
+    let mat = new Matrix(3,[0, 1, 2 ,
+                 3, 4, 5 ,
+                 6, 7, 9]);
+    mat.Print()
+    mat.LUInversion().Print()
+    console.log(mat.Determinant());
+}
+
+function Example8() {
+    let mat = new Matrix(3,[0, 1, 2 ,
+                 3, 4, 5 ,
+                 6, 7, 8]);
+    mat.Print()
+    mat.LUInversion().Print()
+    console.log(mat.Determinant());
+}
+
 //Example1()
 //Example2()
 //Example3()
 //Example4()
 //Example5()
 //Example6()
-
+//Example7();
+//Example8();

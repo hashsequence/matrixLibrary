@@ -204,7 +204,7 @@ vector<Matrix<W>*> Matrix<W>::LUDecomposition() {
 //so invert U and L which would take O(n^3) 
 // multiply U^-1 * L^-1 will tak O(n^3)
 template <class W>
-Matrix<W>* Matrix<W>::Inversion() {
+Matrix<W>* Matrix<W>::LUInversion() {
     vector<Matrix<W>*> LU = LUDecomposition();
     Matrix<W>* U_inverted = InvertUpperTriangularMatrix(*(LU[1]));
     Matrix<W>* L_inverted = InvertLowerTriangularMatrix(*(LU[0]));
@@ -276,6 +276,63 @@ Matrix<W>* Matrix<W>::InvertLowerTriangularMatrix(Matrix<W>& M) {
     }
     return result;
 }
+
+template <class W>
+void Matrix<W>::GetCofactor(Matrix<W>& coFactorMatrix, int p, int q, int n) {
+    int i = 0, j = 0;
+ 
+    // Looping for each element of the matrix
+    for (int row = 0; row < n; row++) {
+        for ( int col = 0; col < n; col++) {
+            //  Copying into temporary matrix only those
+            //  element which are not in given row and
+            //  column
+            if (row != p && col != q) {
+                W val = this->GetCell(row,col);
+                coFactorMatrix.SetCell(i,j,val);
+                j++;
+                // Row is filled, so increase row index and
+                // reset col index
+                if (j == n - 1) {
+                    j = 0;
+                    i++;
+                }
+            }
+        }
+    }
+}
+
+template <class W>
+W Matrix<W>::Determinant() {
+    W D(0); // Initialize result
+    W negOne(-1);
+    // Base case : if matrix contains single element
+    if (this->GetRowSize() == 1) {
+        W A_0_0(this->GetCell(0,0));
+        return A_0_0;
+    }
+   
+    Matrix<W> coFactorMatrix(this->GetRowSize()-1);// To store cofactors
+
+   
+    W sign(1); // To store sign multiplier
+   
+    // Iterate for each element of first row
+    for (int f = 0; f < this->GetRowSize(); f++)
+    {
+        // Getting Cofactor of A[0][f]
+        this->GetCofactor(coFactorMatrix, 0, f, this->GetRowSize());
+        W coFacDet  = coFactorMatrix.Determinant();
+        W cell_0_f = this->GetCell(0,f);
+        W prod = cell_0_f * coFacDet;
+        W termVal = sign * prod ;
+        D += termVal;
+        // terms are to be added with alternate sign
+        sign *= negOne;
+    }
+    return D;
+}
+
 
 /*
 for linking errors there are three ways to solve this:
