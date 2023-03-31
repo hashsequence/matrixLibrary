@@ -55,8 +55,8 @@ Partial Pivoting is O(N<sup>2</sup>)
 The inverse of P is P<sup>T</P> and so Transpose is O(N^<sup>2</sup>)
 and I can solve the inverses of U and L by: 
 
-1. solving Ux = b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0``<``=i``<``n with backwards substitution
-2. solving Lx=b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0<=i``<``n with forward substitution
+1. solving Ux = b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0<=i<n with backwards substitution
+2. solving Lx=b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0<=i<n with forward substitution
 
 ### Class and Methods
 
