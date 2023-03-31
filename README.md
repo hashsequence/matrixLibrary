@@ -71,11 +71,11 @@ For the both C++ and JavaScript libraries I made versions of the Matrix Library
 
 Here is the basic structure of the libraries in psuedo-code:
 
-    ```
     Class Fraction {
         var numerator;
         var denomiator;
     }
+                                                                               
     Class Row {
         var Fractions[] arr;
         DotProduct();
@@ -88,8 +88,6 @@ Here is the basic structure of the libraries in psuedo-code:
         Transpose();
         Multiply();
     }
-
-    ```
 
 ## Benchmarking LU inverions with partial row swapping
 
