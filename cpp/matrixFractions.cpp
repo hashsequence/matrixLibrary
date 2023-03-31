@@ -333,6 +333,29 @@ W Matrix<W>::Determinant() {
     return D;
 }
 
+template <class W>
+void Matrix<W>::Transpose() {
+    for (int i = 0; i < this->GetRowSize(); i++) {
+        for (int j = i; j < this->GetRowSize(); j++) {
+            W t = this->GetCell(i,j);
+            this->SetCell(i,j,this->GetCell(j,i));
+            this->SetCell(j,i,t);
+        }
+    }
+}
+
+template <class W>
+Matrix<W>* Matrix<W>::Transpose(Matrix& A) {
+    Matrix<W>* T = new Matrix(A.GetRowSize());
+    for (int i = 0; i < A.GetRowSize(); i++) {
+        for (int j = i; j < A.GetRowSize(); j++) {
+            T->SetCell(i,j,A.GetCell(j,i));
+            T->SetCell(j,i,A.GetCell(i,j));
+        }
+    }
+    return T;
+}
+
 
 /*
 for linking errors there are three ways to solve this:

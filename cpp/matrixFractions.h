@@ -400,15 +400,17 @@ class Matrix
     
         Matrix* LUInversion();
 
-        void GetCofactor(Matrix& coFactorMatrix, int p, int q, int n);
+        void Transpose();
 
-        W Determinant();
+        static Matrix* Transpose(Matrix& A);
 
         static Matrix* InvertUpperTriangularMatrix(Matrix& M);
     
         static Matrix* InvertLowerTriangularMatrix(Matrix& M);
 
+        void GetCofactor(Matrix& coFactorMatrix, int p, int q, int n);
 
+        W Determinant();
 };
 
 #endif

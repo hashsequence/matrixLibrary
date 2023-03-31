@@ -29,4 +29,20 @@ describe("Matrix test", () => {
         expect(M.Determinant()).toStrictEqual(724);
     });
 
+    test("transpose test ", () => {
+        let M = new Matrix(5,[
+            5,7,9,4,4,
+            2,4,7,1,4,
+            7,9,3,1,2,
+            5,6,3,6,2,
+            1,4,2,5,2]);
+        let M_T = new Matrix(5,[
+            5,2,7,5,1,
+            7,4,9,6,4,
+            9,7,3,3,2,
+            4,1,1,6,5,
+            4,4,2,2,2]);
+        expect(Matrix.Transpose(M).GetArr()).toStrictEqual(M_T.GetArr());
+    });
+
 });

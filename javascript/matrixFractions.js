@@ -334,18 +334,6 @@ Matrix.prototype.LUDecomposition = function() {
     return [lower,upper];
 }
 
-//LUInversion algorithm
-//LU Decomposition time complexity O(n^3)
-//A is nonsingular if and only if A is invertible
-//A non-singular matrix is a square one whose determinant is not zero
-//since A=LU -> A^-1 = (LU)^-1 ==>  A^-1 = U^-1 * L^-1 (matrix multiplication is not commutative so U^-1 * L^-1)
-//so invert U and L which would take O(n^3) 
-// multiply U^-1 * L^-1 will tak O(n^3)
-Matrix.prototype.LUInversion = function() {
-    let [L,U] = this.LUDecomposition();
-    return Matrix.InvertUpperTriangularMatrix(U).Multiply(Matrix.InvertLowerTriangularMatrix(L));
-}
-
 Matrix.prototype.GetCofactor = function(coFactorMatrix, p, q, n) {
     let i = 0, j = 0;
  
@@ -393,6 +381,42 @@ Matrix.prototype.Determinant = function()
         sign = sign.Product(negOne);
     }
     return D;
+}
+
+
+//Transpose current matrix
+Matrix.prototype.Transpose = function() {
+    for (let i = 0; i < this.GetRowSize(); i++) {
+        for (let j = i; j < this.GetRowSize(); j++) {
+            let t = this.GetCell(i,j);
+            this.SetCell(i,j,this.GetCell(j,i));
+            this.SetCell(j,i,t);
+        }
+    }
+}
+
+//returns the Transpose of a matrix
+Matrix.Transpose = function(A) {
+    let T = new Matrix(A.GetRowSize());
+    for (let i = 0; i < A.GetRowSize(); i++) {
+        for (let j = i; j < A.GetRowSize(); j++) {
+            T.SetCell(i,j,A.GetCell(j,i));
+            T.SetCell(j,i,A.GetCell(i,j));
+        }
+    }
+    return T;
+}
+
+//LUInversion algorithm
+//LU Decomposition time complexity O(n^3)
+//A is nonsingular if and only if A is invertible
+//A non-singular matrix is a square one whose determinant is not zero
+//since A=LU -> A^-1 = (LU)^-1 ==>  A^-1 = U^-1 * L^-1 (matrix multiplication is not commutative so U^-1 * L^-1)
+//so invert U and L which would take O(n^3) 
+// multiply U^-1 * L^-1 will tak O(n^3)
+Matrix.prototype.LUInversion = function() {
+    let [L,U] = this.LUDecomposition();
+    return Matrix.InvertUpperTriangularMatrix(U).Multiply(Matrix.InvertLowerTriangularMatrix(L));
 }
 
 //Inverse of an upper triangular matrix is upper triangular

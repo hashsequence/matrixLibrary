@@ -107,10 +107,38 @@ void test5() {
     cout << "-----TEST5 PASSED----\n";
 }
 
+void test6() {
+    cout << "-----TEST6----\n"; 
+    vector<double> vec1{
+       5,	7,	9,	4,   4,
+       2,	4,	7,	1,	4,
+       7,	9,	3,	1,	2,
+       5,	6,	3,	6,	2,
+       1,	4,	2,	5,	2
+       };
+    Matrix A(5,vec1);
+    A.Print();
+    Matrix* A_T = Matrix::Transpose(A);
+    A_T->Print();
+    vector<double> A_T_Ans = {
+        5,2,7,5,1,
+            7,4,9,6,4,
+            9,7,3,3,2,
+            4,1,1,6,5,
+            4,4,2,2,2};
+
+    for (int i =0; i < vec1.size(); i++ ) {
+        assert(A_T_Ans[i] == A_T->GetArr()[i]);
+    }
+    delete A_T;
+    cout << "-----TEST6 PASSED----\n";
+}
+
 int main() {
     test1();
     test2();
     test3();
     test4();
     test5();
+    test6();
 }

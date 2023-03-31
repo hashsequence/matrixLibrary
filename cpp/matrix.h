@@ -67,6 +67,10 @@ class Matrix
     
         Matrix* LUInversion();
     
+        void Transpose();
+
+        static Matrix* Transpose(Matrix& A);
+        
         static Matrix* InvertUpperTriangularMatrix(Matrix& M);
     
         static Matrix* InvertLowerTriangularMatrix(Matrix& M);

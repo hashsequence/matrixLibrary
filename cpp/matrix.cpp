@@ -267,3 +267,24 @@ double Matrix::Determinant() {
     }
     return D;
 }
+
+void Matrix::Transpose() {
+    for (int i = 0; i < this->GetRowSize(); i++) {
+        for (int j = i; j < this->GetRowSize(); j++) {
+            int t = this->GetCell(i,j);
+            this->SetCell(i,j,this->GetCell(j,i));
+            this->SetCell(j,i,t);
+        }
+    }
+}
+
+Matrix* Matrix::Transpose(Matrix& A) {
+    Matrix* T = new Matrix(A.GetRowSize());
+    for (int i = 0; i < A.GetRowSize(); i++) {
+        for (int j = i; j < A.GetRowSize(); j++) {
+            T->SetCell(i,j,A.GetCell(j,i));
+            T->SetCell(j,i,A.GetCell(i,j));
+        }
+    }
+    return T;
+}

@@ -197,6 +197,29 @@ Matrix.prototype.Determinant = function()
     return D;
 }
 
+//Transpose current matrix
+Matrix.prototype.Transpose = function() {
+    for (let i = 0; i < this.GetRowSize(); i++) {
+        for (let j = i; j < this.GetRowSize(); j++) {
+            let t = this.GetCell(i,j);
+            this.SetCell(i,j,this.GetCell(j,i));
+            this.SetCell(j,i,t);
+        }
+    }
+}
+
+//returns the Transpose of a matrix
+Matrix.Transpose = function(A) {
+    let T = new Matrix(A.GetRowSize());
+    for (let i = 0; i < A.GetRowSize(); i++) {
+        for (let j = i; j < A.GetRowSize(); j++) {
+            T.SetCell(i,j,A.GetCell(j,i));
+            T.SetCell(j,i,A.GetCell(i,j));
+        }
+    }
+    return T;
+}
+
 //Inversion algorithm
 //LU Decomposition time complexity O(n^3)
 //since A=LU -> A^-1 = (LU)^-1 ==>  A^-1 = U^-1 * L^-1 (matrix multiplication is not commutative so U^-1 * L^-1)
