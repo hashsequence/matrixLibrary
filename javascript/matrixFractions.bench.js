@@ -1,7 +1,7 @@
 import { benchmarkSuite } from "jest-bench";
 import {Matrix, Fraction} from "./matrixFractions";
 
-benchmarkSuite("Matrix using custom Fractions Class instead of Numbers", {
+  benchmarkSuite("Matrix using custom Fractions Class instead of Numbers", {
     // setup will not run just once, it will run for each loop
     setup() {
 

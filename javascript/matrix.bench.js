@@ -1,7 +1,7 @@
 import { benchmarkSuite } from "jest-bench";
 import {Matrix, Row} from "./matrix";
 
-benchmarkSuite("Matrix", {
+  benchmarkSuite("Matrix", {
     // setup will not run just once, it will run for each loop
     setup() {
 
@@ -12,7 +12,7 @@ benchmarkSuite("Matrix", {
     },
     
     ["inverting 5x5 Matrix of Numbers "]: () => {
-        let M = new Matrix(3,[
+        let M = new Matrix(5,[
             5,7,9,4,4,
             2,4,7,1,4,
             7,9,3,1,2,

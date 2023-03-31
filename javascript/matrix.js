@@ -226,8 +226,9 @@ Matrix.Transpose = function(A) {
 //so invert U and L which would take O(n^3) 
 // multiply U^-1 * L^-1 will tak O(n^3)
 Matrix.prototype.LUInversion = function() {
-    let [L,U] = this.LUDecomposition();
-    return Matrix.InvertUpperTriangularMatrix(U).Multiply(Matrix.InvertLowerTriangularMatrix(L));
+    let [P, As] = Matrix.PartialPivot(this);
+    let [L,U] = As.LUDecomposition();
+    return Matrix.InvertUpperTriangularMatrix(U).Multiply(Matrix.InvertLowerTriangularMatrix(L)).Multiply(P);
 }
 //Inverse of an upper triangular matrix is upper triangular
 //inverse of lower triangular matrix is lower triangular
