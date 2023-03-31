@@ -134,6 +134,60 @@ void test6() {
     cout << "-----TEST6 PASSED----\n";
 }
 
+void test7() {
+    cout << "-----TEST7----\n"; 
+    vector<double> vec1{
+       5,7,9,
+        2,4,7,
+        7,9,3
+       };
+    vector<double> vec2{
+       7,9,3,
+       5,7,9,
+       2,4,7,
+       };
+    vector<double> pVec{
+       0,0,1,
+       1,0,0,
+       0,1,0
+       };
+    Matrix* M = new Matrix(3,vec1);
+    Matrix M_ans(3,vec2);
+    Matrix P_ans(3,pVec);
+    cout << "M\n";
+    M->Print();
+    vector<Matrix*> PAs = Matrix::PartialPivot(*M);
+    cout << "P: permutation matrix\n";
+    PAs[0]->Print();
+    cout << "As: row swapped\n";
+    PAs[1]-> Print();
+    Matrix* P_T = Matrix::Transpose(*(PAs[0]));
+    cout << "P_T: P transposed\n";
+    P_T->Print();
+    Matrix* P_TAs = P_T->Multiply(*(PAs[1]));
+    cout << "P^T * As\n";
+    P_TAs->Print();
+    vector<double> P_TAsArr = P_TAs->GetArr();
+    for (int i = 0; i < P_TAsArr.size();i++) {
+        assert(P_TAsArr[i] == vec1[i]);
+    }
+    for (int i = 0; i < PAs.size();i++) {
+        assert(PAs[0]->GetArr()[i] == pVec[i]);
+    }
+    for (int i = 0; i < PAs.size();i++) {
+        assert(PAs[1]->GetArr()[i] == vec2[i]);
+    }
+
+    delete M;
+    for (int i = 0; i < PAs.size();i++) {
+        delete PAs[i];
+    }
+    delete P_T;
+    delete P_TAs;
+    cout << "-----TEST7 PASSED----\n";
+}
+
+
 int main() {
     test1();
     test2();
@@ -141,4 +195,5 @@ int main() {
     test4();
     test5();
     test6();
+    test7();
 }

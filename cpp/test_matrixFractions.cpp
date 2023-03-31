@@ -213,6 +213,64 @@ void test8() {
     cout << "-----TEST8 PASSED----\n";
 }
 
+
+
+void test9() {
+    cout << "-----TEST9---\n"; 
+    vector<Fraction<int>> vec1{
+        Fraction<int>(5),Fraction<int>(7),Fraction<int>(9),
+        Fraction<int>(2),Fraction<int>(4),Fraction<int>(7),
+        Fraction<int>(7),Fraction<int>(9),Fraction<int>(3)
+       };
+    vector<Fraction<int>> vec2{
+       Fraction<int>(7),Fraction<int>(9),Fraction<int>(3),
+       Fraction<int>(5),Fraction<int>(7),Fraction<int>(9),
+       Fraction<int>(2),Fraction<int>(4),Fraction<int>(7),
+       };
+    vector<Fraction<int>> pVec{
+       Fraction<int>(0),Fraction<int>(0),Fraction<int>(1),
+       Fraction<int>(1),Fraction<int>(0),Fraction<int>(0),
+       Fraction<int>(0),Fraction<int>(1),Fraction<int>(0)
+       };
+    Matrix<Fraction<int>>* M = new Matrix<Fraction<int>>(3,vec1);
+    Matrix<Fraction<int>> M_ans(3,vec2);
+    Matrix<Fraction<int>> P_ans(3,pVec);
+    cout << "M\n";
+    M->Print();
+    vector<Matrix<Fraction<int>>*> PAs = Matrix<Fraction<int>>::PartialPivot(*M);
+    cout << "P: permutation Matrix<Fraction<int>>\n";
+    PAs[0]->Print();
+    cout << "As: row swapped\n";
+    PAs[1]-> Print();
+    Matrix<Fraction<int>>* P_T = Matrix<Fraction<int>>::Transpose(*(PAs[0]));
+    cout << "P_T: P transposed\n";
+    P_T->Print();
+    Matrix<Fraction<int>>* P_TAs = P_T->Multiply(*(PAs[1]));
+    cout << "P^T * As\n";
+    P_TAs->Print();
+    vector<Fraction<int>> P_TAsArr = P_TAs->GetArr();
+    for (int i = 0; i < P_TAsArr.size();i++) {
+        assert(P_TAsArr[i] == vec1[i]);
+    }
+    for (int i = 0; i < PAs.size();i++) {
+        assert(PAs[0]->GetArr()[i] == pVec[i]);
+    }
+    for (int i = 0; i < PAs.size();i++) {
+        assert(PAs[1]->GetArr()[i] == vec2[i]);
+    }
+
+    delete M;
+    for (int i = 0; i < PAs.size();i++) {
+        delete PAs[i];
+    }
+    delete P_T;
+    delete P_TAs;
+    cout << "-----TEST9 PASSED----\n";
+}
+
+
+
+
 int main() {
     test1();
     test2();
@@ -222,4 +280,5 @@ int main() {
     test6();
     test7();
     test8();
+    test9();
 }

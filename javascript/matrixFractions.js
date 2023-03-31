@@ -133,6 +133,17 @@ Fraction.prototype.Mod = function(b) {
     return new Fraction(n/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)),d/Fraction.Gcd(Fraction.Absolute(n),Fraction.Absolute(d)))
 }
 
+Fraction.prototype.Compare = function(b) {
+    let val1 = this.n * b.d;
+    let val2 = this.d * b.n;
+    if (val1 > val2) {
+        return 1;
+    } else if (val1 < val2) {
+        return -1
+    }
+    return 0;
+}
+
 Fraction.prototype.Text = function() {
     if (!Number.isInteger(this.n)) {
         return this.n
@@ -267,8 +278,12 @@ Matrix.prototype.Print = function(isFraction=false) {
     console.log(str);
 }
 
-Matrix.prototype.GetArr = function() {
-    return this.arr.map((e)=>{return e.n/e.d});
+Matrix.prototype.GetArr = function(convertToNumber=true) {
+    if (convertToNumber == true) {
+        return this.arr.map((e)=>{return e.n/e.d});
+    } else {
+        return this.arr;
+    }
 }
 
 Matrix.prototype.ConvertTo2DArray = function() {
@@ -467,81 +482,43 @@ Matrix.InvertLowerTriangularMatrix = function(M) {
     return result;
 }
 
-function Example1() {
-    let mat = new Matrix(3,[2, -1, -2 ,
-                 -4, 6, 3 ,
-                 -4, -2, 8]);
-
-    let [L,U] = mat.LUDecomposition();
-    L.Print();
-    U.Print();
+Matrix.SwapCols = function(A, j1, j2) {
+    for (let i = 0; i < A.GetRowSize(); i++) {
+        let t = A.GetCell(i,j1);
+        A.SetCell(i,j1,A.GetCell(i,j2));
+        A.SetCell(i,j2,t);
+    }
 }
 
-function Example2() {
-    let mat1 = new Matrix(2,[1, 1, 2, 2]);
-    let mat2 = new Matrix(2,[1, 1, 2, 2]);
-
-    mat1.Multiply(mat2).Print();
+Matrix.SwapRows = function(A, i1, i2) {
+    for (let j = 0; j < A.GetRowSize(); j++) {
+        let t = A.GetCell(i1,j);
+        A.SetCell(i1,j,A.GetCell(i2,j));
+        A.SetCell(i2,j,t);
+    }
 }
 
-function Example3() {
-    Matrix.InvertUpperTriangularMatrix(new Matrix(3,[2,-1,-2,0,4,-1,0,0,3])).Print()
+Matrix.PartialPivot = function(A) {
+    //create a new Matrix
+    let arr = A.GetArr(false).map(x => x);
+    let ACopy = new Matrix(A.GetRowSize(),arr);
+    //creating identity matrix
+    let P = new Matrix(ACopy.GetRowSize());
+    for (let i = 0; i < P.GetRowSize();i++) {
+        P.SetCell(i,i,1);
+    }
+    for (let j = 0; j < ACopy.GetRowSize();j++) {
+        let max = ACopy.GetCell(j,j);
+        let maxRowNum = j;
+        for (let i = j; i < ACopy.GetRowSize();i++) { 
+            let curr = ACopy.GetCell(i,j);
+            if (max.Compare(curr) == -1) {
+                max = curr;
+                maxRowNum = i;
+            } 
+        }
+        Matrix.SwapRows(P,j,maxRowNum);
+        Matrix.SwapRows(ACopy,j,maxRowNum);
+    }
+    return [P, ACopy];
 }
-
-function Example4() {
-    let mat1 = new Matrix(5,[
-        5,	7,	9,	4,   4,
-        2,	4,	7,	1,	4,
-        7,	9,	3,	1,	2,
-        5,	6,	3,	6,	2,
-        1,	4,	2,	5,	2
-    ])
-    let [L,U] = mat1.LUDecomposition()
-    L.Print()
-    Matrix.InvertLowerTriangularMatrix(L).Print()
-}
-
-function Example5() {
-    let mat = new Matrix(3,[2, -1, -2 ,
-                 -4, 6, 3 ,
-                 -4, -2, 8]);
-
-    let [L,U] = mat.LUDecomposition();
-    L.Print();
-    Matrix.InvertLowerTriangularMatrix(L).Print()
-}
-
-function Example6() {
-    let mat = new Matrix(3,[2, -1, -2 ,
-                 -4, 6, 3 ,
-                 -4, -2, 8]);
-    mat.Print()
-    mat.LUInversion().Print()
-}
-
-function Example7() {
-    let mat = new Matrix(3,[0, 1, 2 ,
-                 3, 4, 5 ,
-                 6, 7, 9]);
-    mat.Print()
-    mat.LUInversion().Print()
-    console.log(mat.Determinant());
-}
-
-function Example8() {
-    let mat = new Matrix(3,[0, 1, 2 ,
-                 3, 4, 5 ,
-                 6, 7, 8]);
-    mat.Print()
-    mat.LUInversion().Print()
-    console.log(mat.Determinant());
-}
-
-//Example1()
-//Example2()
-//Example3()
-//Example4()
-//Example5()
-//Example6()
-//Example7();
-//Example8();

@@ -63,14 +63,14 @@ class Matrix
     
         Matrix* Multiply(Matrix& B);
     
-        vector<Matrix*> LUDecomposition();
+        vector<Matrix*> LUDecomposition(); // returns [L, U]
     
         Matrix* LUInversion();
     
         void Transpose();
 
         static Matrix* Transpose(Matrix& A);
-        
+
         static Matrix* InvertUpperTriangularMatrix(Matrix& M);
     
         static Matrix* InvertLowerTriangularMatrix(Matrix& M);
@@ -78,6 +78,19 @@ class Matrix
         void GetCofactor(Matrix& coFactorMatrix, int p, int q, int n);
 
         double Determinant();
+
+        static void SwapCols(Matrix& A, int j1, int j2);
+
+        static void SwapRows(Matrix& A, int j1, int j2);
+
+        /*
+            returns a vector of [P, A_RowSwapped], where P is the permutation Matrix 
+            such that PA = A_RowSwapped and A_RowSwapped is A with rows swapped such that
+            we are putting the larger element at the top left position, this is called partial pivoting
+            because we are only swapping rows
+        */
+        static vector<Matrix*> PartialPivot(Matrix& A); 
 };
+
 
 #endif

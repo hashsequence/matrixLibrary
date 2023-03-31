@@ -45,4 +45,26 @@ describe("Matrix test", () => {
         expect(Matrix.Transpose(M).GetArr()).toStrictEqual(M_T.GetArr());
     });
 
+    test("partial pivot matrix test ", () => {
+        let M = new Matrix(3,[
+            5,7,9,
+            2,4,7,
+            7,9,3]);
+        let M_ans = new Matrix(3,[
+            7,9,3,
+            5,7,9,
+            2,4,7,
+           ]);
+        let P_ans = new Matrix(3,[
+        0,0,1,
+        1,0,0,
+        0,1,0
+        ]);
+
+        let [P,As] = Matrix.PartialPivot(M)
+        expect(Matrix.Transpose(P).Multiply(As).GetArr()).toStrictEqual(M.GetArr());
+        expect(As.GetArr()).toStrictEqual(M_ans.GetArr());
+        expect(P.GetArr()).toStrictEqual(P_ans.GetArr());
+    });
+
 });

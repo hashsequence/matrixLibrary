@@ -288,3 +288,45 @@ Matrix* Matrix::Transpose(Matrix& A) {
     }
     return T;
 }
+
+void Matrix::SwapCols(Matrix& A, int j1, int j2) {
+    for (int i = 0; i < A.GetRowSize(); i++) {
+        double t = A.GetCell(i,j1);
+        A.SetCell(i,j1,A.GetCell(i,j2));
+        A.SetCell(i,j2,t);
+    }
+}
+
+void Matrix::SwapRows(Matrix&A, int i1, int i2) {
+    for (int j = 0; j < A.GetRowSize(); j++) {
+        int t = A.GetCell(i1,j);
+        A.SetCell(i1,j,A.GetCell(i2,j));
+        A.SetCell(i2,j,t);
+    }
+}
+
+vector<Matrix*> Matrix::PartialPivot(Matrix& A) {
+    //create a new Matrix
+    vector<double> vecCopy(A.GetArr());
+    Matrix* ACopy = new Matrix(A.GetRowSize(),vecCopy);
+    //creating identity matrix
+    Matrix* P = new Matrix(ACopy->GetRowSize());
+    for (int i = 0; i < P->GetRowSize();i++) {
+        P->SetCell(i,i,1);
+    }
+    for (int j = 0; j < ACopy->GetRowSize();j++) {
+        double max = ACopy->GetCell(j,j);
+        int maxRowNum = j;
+        for (int i = j; i < ACopy->GetRowSize();i++) { 
+            double curr = ACopy->GetCell(i,j);
+            if (max < curr) {
+                max = curr;
+                maxRowNum = i;
+            } 
+        }
+        Matrix::SwapRows(*P,j,maxRowNum);
+        Matrix::SwapRows(*ACopy,j,maxRowNum);
+    }
+    vector<Matrix*> result{P, ACopy};
+    return result;
+}

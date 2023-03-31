@@ -356,6 +356,51 @@ Matrix<W>* Matrix<W>::Transpose(Matrix& A) {
     return T;
 }
 
+template <class W>
+void Matrix<W>::SwapCols(Matrix<W>& A, int j1, int j2) {
+    for (int i = 0; i < A.GetRowSize(); i++) {
+        W t = A.GetCell(i,j1);
+        A.SetCell(i,j1,A.GetCell(i,j2));
+        A.SetCell(i,j2,t);
+    }
+}
+
+template <class W>
+void Matrix<W>::SwapRows(Matrix<W>&A, int i1, int i2) {
+    for (int j = 0; j < A.GetRowSize(); j++) {
+        W t = A.GetCell(i1,j);
+        A.SetCell(i1,j,A.GetCell(i2,j));
+        A.SetCell(i2,j,t);
+    }
+}
+
+template <class W>
+vector<Matrix<W>*> Matrix<W>::PartialPivot(Matrix& A) {
+    //create a new Matrix
+    vector<W> vecCopy(A.GetArr());
+    Matrix<W>* ACopy = new Matrix<W>(A.GetRowSize(),vecCopy);
+    //creating identity matrix
+    Matrix<W>* P = new Matrix<W>(ACopy->GetRowSize());
+    for (int i = 0; i < P->GetRowSize();i++) {
+        P->SetCell(i,i,1);
+    }
+    for (int j = 0; j < ACopy->GetRowSize();j++) {
+        W max = ACopy->GetCell(j,j);
+        int maxRowNum = j;
+        for (int i = j; i < ACopy->GetRowSize();i++) { 
+            W curr = ACopy->GetCell(i,j);
+            if (max < curr) {
+                max = curr;
+                maxRowNum = i;
+            } 
+        }
+        Matrix<W>::SwapRows(*P,j,maxRowNum);
+        Matrix<W>::SwapRows(*ACopy,j,maxRowNum);
+    }
+    vector<Matrix<W>*> result{P, ACopy};
+    return result;
+}
+
 
 /*
 for linking errors there are three ways to solve this:

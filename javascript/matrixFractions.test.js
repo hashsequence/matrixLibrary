@@ -83,7 +83,7 @@ describe("Matrix test", () => {
         expect(M.Determinant().ToNumber()).toBe(724);
     });
 
-    test("transpose test ", () => {
+     test("transpose test ", () => {
         let M = new Matrix(5,[
             5,7,9,4,4,
             2,4,7,1,4,
