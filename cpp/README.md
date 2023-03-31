@@ -2,7 +2,7 @@
 
 ## Testing
 
-This project uses the c++ standard library [cassert](https://github.com/google/benchmark) library to run tests.
+This project uses the c++ standard library [cassert](https://en.cppreference.com/w/cpp/header/cassert) library to run tests.
 
 ### How to run tests
 
