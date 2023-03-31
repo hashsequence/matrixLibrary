@@ -176,8 +176,8 @@ thus javascript Matrix class for LUInversion is 6 times faster than C++
 
 For my Matrix of Fraction Class
 
-For C++ I implemented a template for Matrix that support double,int, Fractions``<int>`` and for Javascript I implemented a Matrix of Fractions or another custom class that implements the same methods of my Fraction class. My Javascript class ran LUInversion at around .439 ms, and my C++ implementation ran LUInversion for around
-double, int, Fraction``<int>`` .120 ms, 113 ms, and .229 ms, so my Matrix of a Fraction class for C++ is twice as fast as my JavaScript class.
+For C++ I implemented a template for Matrix that support double,int, Fraction\<int\> and for Javascript I implemented a Matrix of Fractions or another custom class that implements the same methods of my Fraction class. My Javascript class ran LUInversion at around .439 ms, and my C++ implementation ran LUInversion for around
+double, int, Fraction\<int\> .120 ms, 113 ms, and .229 ms, so my Matrix of a Fraction class for C++ is twice as fast as my JavaScript class.
 
 I reason that the basic matrix class for JavaScript was faster due to the way the node engine optimizes and transform my javascript code to an intermediate form which allows the performance close to C, and since in the basic Matrix Class I was working with floating point primitive types it could be the V8 is optimizing floating point arithmetic whenever possible.
 
