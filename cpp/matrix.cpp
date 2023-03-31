@@ -165,10 +165,12 @@ vector<Matrix*> Matrix::LUDecomposition() {
 //so invert U and L which would take O(n^3) 
 // multiply U^-1 * L^-1 will tak O(n^3)
 Matrix* Matrix::LUInversion() {
-    vector<Matrix*> LU = LUDecomposition();
-    Matrix* InvertedMatrix = InvertUpperTriangularMatrix(*LU[1])->Multiply(*InvertLowerTriangularMatrix(*LU[0]));
+    vector<Matrix*> PAs = PartialPivot(*this);
+    vector<Matrix*> LU = PAs[1]->LUDecomposition();
+    Matrix* InvertedMatrix = InvertUpperTriangularMatrix(*LU[1])->Multiply(*InvertLowerTriangularMatrix(*LU[0]))->Multiply(*(PAs[0]));
     for (int i = 0; i < LU.size(); i++) {
         delete LU[i];
+        delete PAs[i];
     }
     return InvertedMatrix;
 }

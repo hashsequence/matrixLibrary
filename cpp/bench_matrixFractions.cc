@@ -58,8 +58,17 @@ static void BM_BenchMarkMatrixTemplateDoubleLUInversion(benchmark::State& state)
   }
 }
 
-BENCHMARK(BM_BenchMarkMatrixTemplateIntLUInversion)->Iterations(100000);
-BENCHMARK(BM_BenchMarkMatrixTemplateDoubleLUInversion)->Iterations(100000);
-BENCHMARK(BM_BenchMarkMatrixTemplateFractionLUInversion)->Iterations(100000);
+BENCHMARK(BM_BenchMarkMatrixTemplateIntLUInversion)->Iterations(100000)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_BenchMarkMatrixTemplateDoubleLUInversion)->Iterations(100000)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_BenchMarkMatrixTemplateFractionLUInversion)->Iterations(100000)->Unit(benchmark::kMillisecond);
+
+BENCHMARK(BM_BenchMarkMatrixTemplateIntLUInversion)->Iterations(100)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_BenchMarkMatrixTemplateDoubleLUInversion)->Iterations(100)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_BenchMarkMatrixTemplateFractionLUInversion)->Iterations(100)->Unit(benchmark::kMillisecond);
+
+
+BENCHMARK(BM_BenchMarkMatrixTemplateIntLUInversion)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_BenchMarkMatrixTemplateDoubleLUInversion)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_BenchMarkMatrixTemplateFractionLUInversion)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

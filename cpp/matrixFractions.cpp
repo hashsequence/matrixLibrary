@@ -205,10 +205,11 @@ vector<Matrix<W>*> Matrix<W>::LUDecomposition() {
 // multiply U^-1 * L^-1 will tak O(n^3)
 template <class W>
 Matrix<W>* Matrix<W>::LUInversion() {
-    vector<Matrix<W>*> LU = LUDecomposition();
+    vector<Matrix*> PAs = PartialPivot(*this);
+    vector<Matrix<W>*> LU = PAs[1]->LUDecomposition();
     Matrix<W>* U_inverted = InvertUpperTriangularMatrix(*(LU[1]));
     Matrix<W>* L_inverted = InvertLowerTriangularMatrix(*(LU[0]));
-    Matrix<W>* InvertedMatrix = U_inverted->Multiply(*L_inverted);
+    Matrix<W>* InvertedMatrix = U_inverted->Multiply(*L_inverted)->Multiply(*(PAs[0]));
     for (int i = 0; i < LU.size(); i++) {
         delete LU[i];
     }
@@ -382,7 +383,8 @@ vector<Matrix<W>*> Matrix<W>::PartialPivot(Matrix& A) {
     //creating identity matrix
     Matrix<W>* P = new Matrix<W>(ACopy->GetRowSize());
     for (int i = 0; i < P->GetRowSize();i++) {
-        P->SetCell(i,i,1);
+        W one(1);
+        P->SetCell(i,i,one);
     }
     for (int j = 0; j < ACopy->GetRowSize();j++) {
         W max = ACopy->GetCell(j,j);

@@ -1,8 +1,8 @@
 clean: 
-	rm -rf test_matrix.exe test_matrixFractions.exe bench_matrixFractions.exe bench_matrixFractions.exe
+	rm -rf test_matrix.exe test_matrixFractions.exe bench_matrix.exe bench_matrixFractions.exe
 
 post-clean:
-	rm -rf test_matrix.exe test_matrixFractions.exe bench_matrixFractions.exe bench_matrixFractions.exe
+	rm -rf test_matrix.exe test_matrixFractions.exe bench_matrix.exe bench_matrixFractions.exe
 
 build-test-matrix: clean
 	g++ -o test_matrix.exe matrix.h matrix.cpp test_matrix.cpp

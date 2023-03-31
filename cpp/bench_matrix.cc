@@ -24,6 +24,7 @@ static void BM_BenchMarkLUInversionDouble(benchmark::State& state) {
   }
 }
 
-BENCHMARK(BM_BenchMarkLUInversionDouble)->Iterations(100000);
-
+BENCHMARK(BM_BenchMarkLUInversionDouble)->Iterations(100000)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_BenchMarkLUInversionDouble)->Iterations(100)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_BenchMarkLUInversionDouble)->Unit(benchmark::kMillisecond);
 BENCHMARK_MAIN();
