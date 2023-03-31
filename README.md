@@ -135,7 +135,7 @@ BM_BenchMarkMatrixTemplateFractionLUInversion                        0.229 ms   
 
 ### JavaScript
 
-```
+```console
 foo@bar:~/matrixLibrary/javascript$ npm run bench
 
 > matrixlibrary@1.0.0 bench
