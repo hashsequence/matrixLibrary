@@ -19,4 +19,14 @@ describe("Matrix test", () => {
         expect(M.LUInversion().arr).toStrictEqual([2.25, 0.5, 0.375, 0.8333333333333333, 1/3,1/12,4/3,1/3,1/3]);
     });
 
+    test("Determinant test ", () => {
+        let M = new Matrix(5,[
+            5,7,9,4,4,
+            2,4,7,1,4,
+            7,9,3,1,2,
+            5,6,3,6,2,
+            1,4,2,5,2]);
+        expect(M.Determinant()).toStrictEqual(724);
+    });
+
 });

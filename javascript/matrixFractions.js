@@ -169,7 +169,11 @@ Fraction.Absolute = function(n) {
 Fraction.ConvertArrayOfNumbersToArrayOfFractions = function(arr) {
     let result = [];
     for (let i = 0; i < arr.length; i++) {
-        result.push(new Fraction(arr[i]));
+        if (arr[i] instanceof Fraction) {
+            result.push(arr[i]);
+        } else {
+            result.push(new Fraction(arr[i]));
+        }
     }
     return result;
 }
@@ -341,11 +345,6 @@ Matrix.prototype.LUInversion = function() {
     let [L,U] = this.LUDecomposition();
     return Matrix.InvertUpperTriangularMatrix(U).Multiply(Matrix.InvertLowerTriangularMatrix(L));
 }
-//Inverse of an upper triangular matrix is upper triangular
-//inverse of lower triangular matrix is lower triangular
-//to compute the inverse of a triangular matrix,
-//solve Ux = b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with backwards substitution
-//solve Lx=b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with forward substitution
 
 Matrix.prototype.GetCofactor = function(coFactorMatrix, p, q, n) {
     let i = 0, j = 0;
@@ -396,6 +395,11 @@ Matrix.prototype.Determinant = function()
     return D;
 }
 
+//Inverse of an upper triangular matrix is upper triangular
+//inverse of lower triangular matrix is lower triangular
+//to compute the inverse of a triangular matrix,
+//solve Ux = b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with backwards substitution
+//solve Lx=b for all [0,..,e_i,...0] where e_i = 1 for all 0<=i<n with forward substitution
 Matrix.InvertUpperTriangularMatrix = function(M) {
     let result = new Matrix(M.GetRowSize())
     //create result matrix and intialize to identity matrix

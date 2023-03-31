@@ -7,8 +7,7 @@
 
 using namespace std;
 
-static void BM_BenchMarkLUInversion(benchmark::State& state) {
-  std::string x = "hello";
+static void BM_BenchMarkLUInversionDouble(benchmark::State& state) {
   for (auto _ : state) {
       vector<double> vec1{
        5,	7,	9,	4,   4,
@@ -25,6 +24,6 @@ static void BM_BenchMarkLUInversion(benchmark::State& state) {
   }
 }
 
-BENCHMARK(BM_BenchMarkLUInversion)->Iterations(10000);
+BENCHMARK(BM_BenchMarkLUInversionDouble)->Iterations(100000);
 
 BENCHMARK_MAIN();

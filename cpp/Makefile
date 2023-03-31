@@ -36,3 +36,7 @@ run-bench-matrix-fractions:
 bench-matrix : clean build-bench-matrix run-bench-matrix post-clean
 
 bench-matrix-fractions : clean build-bench-matrix-fractions run-bench-matrix-fractions post-clean
+
+test-all: test-matrix test-matrix-fractions
+
+bench-all: bench-matrix bench-matrix-fractions

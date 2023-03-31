@@ -63,4 +63,24 @@ describe("Matrix test", () => {
         expect(f1.Mod(f2).ToNumber()).toBe(-1);
     });
 
+    test("Determinant test numbers", () => {
+        let M = new Matrix(5,[
+            5,7,9,4,4,
+            2,4,7,1,4,
+            7,9,3,1,2,
+            5,6,3,6,2,
+            1,4,2,5,2]);
+        expect(M.Determinant().ToNumber()).toBe(724);
+    });
+
+    test("Determinant test Fractions", () => {
+        let M = new Matrix(5,[
+            new Fraction(5),new Fraction(7),new Fraction(9),new Fraction(4),new Fraction(4),
+            new Fraction(2),new Fraction(4),new Fraction(7),new Fraction(1),new Fraction(4),
+            new Fraction(7),new Fraction(9),new Fraction(3),new Fraction(1),new Fraction(2),
+            new Fraction(5),new Fraction(6),new Fraction(3),new Fraction(6),new Fraction(2),
+            new Fraction(1),new Fraction(4),new Fraction(2),new Fraction(5),new Fraction(2)]);
+        expect(M.Determinant().ToNumber()).toBe(724);
+    });
+
 });

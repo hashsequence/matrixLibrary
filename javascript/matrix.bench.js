@@ -11,8 +11,14 @@ benchmarkSuite("Matrix", {
     teardown() {
     },
     
-    ["inverting [2, -1, -2 ,-4, 6, 3 ,-4, -2, 8] "]: () => {
-        let M = new Matrix(3,[2, -1, -2 , -4, 6, 3 , -4, -2, 8]);
+    ["inverting 5x5 Matrix of Numbers "]: () => {
+        let M = new Matrix(3,[
+            5,7,9,4,4,
+            2,4,7,1,4,
+            7,9,3,1,2,
+            5,6,3,6,2,
+            1,4,2,5,2]);
         M.LUInversion();
     },
+    
   });

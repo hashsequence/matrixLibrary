@@ -71,7 +71,9 @@ class Matrix
     
         static Matrix* InvertLowerTriangularMatrix(Matrix& M);
 
+        void GetCofactor(Matrix& coFactorMatrix, int p, int q, int n);
 
+        double Determinant();
 };
 
 #endif

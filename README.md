@@ -8,7 +8,7 @@ Comparison of LU Inversion of Matrix class implementation in JavaScript and C++
 
 ## Summary
 
-This project is to compare the performance of a Matrix Class implementation in C++ and Javascript. We will be implementing LU Inversion of a matrix and comparing the performance.
+This project is to compare the performance of a Matrix Class implementation in C++ and Javascript that can work with standard numeric data types such as int and doubles as well as custom data classes. We will be implementing LU Inversion of a matrix and comparing the performance of the Matrix library with standard data types as well as with custom Classes.
 
 ## Requirements
 
@@ -16,19 +16,19 @@ This project is to compare the performance of a Matrix Class implementation in C
 
 * Test and benchmark the C++ and Javascript Matrix Libraries
 
+* Implement Fractions Class as the sample custom class and allow the instantiation of a Matrix of fractions
+
 ### Bonus
 
-* Implement Fractions Class and allow the instantiation of a Matrix of fractions
-
 * Implement other Matrix operations such as Determinants
-
-* Implement invertibity of a Matrix
 
 ## Design Document
 
 ### Limitations And Scope
 
-Since the purpose of this project is to compare the same algorithmic calculation (LU Inversion ), the project will only focus on performing the operation on a already invertible matrix and comparing the performance. Everything else will be bonus.
+Since the purpose of this project is to compare the same algorithmic calculation (LU Inversion ), the project will only focus on performing the operation on a already invertible matrix and comparing the performance.
+
+
 
 
 

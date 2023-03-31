@@ -148,6 +148,55 @@ Matrix.prototype.LUDecomposition = function() {
     return [lower,upper];
 }
 
+Matrix.prototype.GetCofactor = function(coFactorMatrix, p, q, n) {
+    let i = 0, j = 0;
+ 
+    // Looping for each element of the matrix
+    for (let row = 0; row < n; row++) {
+        for ( let col = 0; col < n; col++) {
+            //  Copying into temporary matrix only those
+            //  element which are not in given row and
+            //  column
+            if (row != p && col != q) {
+                coFactorMatrix.SetCell(i,j,this.GetCell(row,col));
+                j++;
+                // Row is filled, so increase row index and
+                // reset col index
+                if (j == n - 1) {
+                    j = 0;
+                    i++;
+                }
+            }
+        }
+    }
+}
+
+Matrix.prototype.Determinant = function()
+{
+    let D = 0; // Initialize result
+    let negOne = -1;
+    // Base case : if matrix contains single element
+    if (this.GetRowSize() == 1) {
+        return this.GetCell(0,0);
+    }
+   
+    let coFactorMatrix = new Matrix(this.GetRowSize()-1);// To store cofactors
+
+   
+    let sign = 1; // To store sign multiplier
+   
+    // Iterate for each element of first row
+    for (let f = 0; f < this.GetRowSize(); f++)
+    {
+        // Getting Cofactor of A[0][f]
+        this.GetCofactor(coFactorMatrix, 0, f, this.GetRowSize());
+        D = D + (sign * this.GetCell(0,f) * coFactorMatrix.Determinant());
+        // terms are to be added with alternate sign
+        sign = sign * negOne;
+    }
+    return D;
+}
+
 //Inversion algorithm
 //LU Decomposition time complexity O(n^3)
 //since A=LU -> A^-1 = (LU)^-1 ==>  A^-1 = U^-1 * L^-1 (matrix multiplication is not commutative so U^-1 * L^-1)

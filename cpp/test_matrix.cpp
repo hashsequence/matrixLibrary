@@ -2,8 +2,16 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
+#include <cmath>
 
 using namespace std;
+
+
+bool compare_float(double x, double y, double epsilon = 0.0000001f){
+   if(fabs(x - y) < epsilon)
+      return true; //they are same
+      return false; //they are not same
+}
 
 void test1() {
     cout << "-----TEST1----\n";
@@ -15,7 +23,11 @@ void test1() {
     B.Print();
     Matrix* R = A.Multiply(B);
     R->Print();
+    vector<double> vecR(R->GetArr());
+    vector<double> ans{2,7,5,14,1,11,6,9,3};
+    assert(vecR == ans);
     delete R;
+    cout << "-----TEST1 PASSED----\n";
 }
 
 void test2() {
@@ -24,10 +36,18 @@ void test2() {
     Matrix A(3,vec1);
     A.Print();
     vector<Matrix*> LU = A.LUDecomposition();
+    vector<double> ansL = {1,0,0,-2,1,0,-2,-1,1};
+    vector<double> ansU = {2,-1,-2, 0,4,-1,0,0,3};
+    vector<double> L(LU[0]->GetArr());
+    vector<double> U(LU[1]->GetArr());
+
+    assert(L == ansL);
+    assert(U == ansU);
     for (int i = 0; i < LU.size(); i++) {
         LU[i]->Print();
         delete LU[i];
     }
+    cout << "-----TEST2 PASSED----\n";
 
 }
 
@@ -38,7 +58,14 @@ void test3() {
     A.Print();
     Matrix* U_inverted = Matrix::InvertUpperTriangularMatrix(A);
     U_inverted->Print();
+    vector<double> ansUInverted = {0.5,0.125,0.375,0,0.25,0.0833333,0,0,0.333333};
+    vector<double> UVec(U_inverted->GetArr());
+    for (int i =0; i < UVec.size(); i++ ) {
+        assert(compare_float(ansUInverted[i],UVec[i], .001));
+    }
+
     delete U_inverted;
+    cout << "-----TEST3 PASSED----\n";
 }
 
 void test4() {
@@ -64,7 +91,20 @@ void test5() {
     A.Print();
     Matrix* A_inverted = A.LUInversion();
     A_inverted -> Print();
+    vector<double> IVec(A_inverted->GetArr());
+    vector<double> ansInverted = {-0.237569,0.243094,-0.0607735,0.519337,-0.469613,
+                                    0.232044,-0.29558,0.198895,-0.472376,0.400552,
+                                    0.441989,-0.301105,-0.0497238,-0.256906,0.0248619,
+                                    0.0441989,-0.0801105,-0.104972,0.124309,0.0524862,
+                                    -0.89779,0.970994,-0.0552486,0.631215,-0.222376};
+     for (int i =0; i < IVec.size(); i++ ) {
+        assert(compare_float(ansInverted[i],IVec[i], .001));
+    }
+    double detA = A.Determinant();
+    cout <<"detA: " << detA << endl;
+    assert(detA == 724);    
     delete A_inverted;
+    cout << "-----TEST5 PASSED----\n";
 }
 
 int main() {
