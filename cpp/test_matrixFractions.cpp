@@ -163,11 +163,11 @@ void test7() {
     cout << "-----TEST7----\n"; 
 
     vector<Fraction<int>> vec1{
-       Fraction<int>(5),Fraction<int>(7),Fraction(9),Fraction<int>(4),Fraction<int>(4),
-       Fraction<int>(2),Fraction<int>(4),Fraction(7),Fraction<int>(1),Fraction<int>(4),
-       Fraction<int>(7),Fraction<int>(9),Fraction(3),Fraction<int>(1),Fraction<int>(2),
-       Fraction<int>(5),Fraction<int>(6),Fraction(3),Fraction<int>(6),Fraction<int>(2),
-       Fraction<int>(1),Fraction<int>(4),Fraction(2),Fraction<int>(5),Fraction<int>(2),
+       Fraction<int>(5),Fraction<int>(7),Fraction<int>(9),Fraction<int>(4),Fraction<int>(4),
+       Fraction<int>(2),Fraction<int>(4),Fraction<int>(7),Fraction<int>(1),Fraction<int>(4),
+       Fraction<int>(7),Fraction<int>(9),Fraction<int>(3),Fraction<int>(1),Fraction<int>(2),
+       Fraction<int>(5),Fraction<int>(6),Fraction<int>(3),Fraction<int>(6),Fraction<int>(2),
+       Fraction<int>(1),Fraction<int>(4),Fraction<int>(2),Fraction<int>(5),Fraction<int>(2),
        };
     Matrix<Fraction<int>> A(5,vec1);
     A.Print();

@@ -353,6 +353,3 @@ template class Matrix<double>;
 template class Matrix<int>;
 template class Matrix<Fraction<int>>;
 template class Matrix<Fraction<double>>;
-
-//template class Fraction2<int>;
-//template class Row<Fraction2<int>>;

@@ -200,7 +200,7 @@ Fraction<U> operator+(Fraction<U> const & a, Fraction<U> const & b) {
         n *= negOne;
         d *=  negOne;
     }
-    Fraction result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
+    Fraction<U> result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
     return result;
 }
 
@@ -217,7 +217,7 @@ Fraction<U>  operator-(Fraction<U> const & a, Fraction<U> const & b) {
         n *= negOne;
         d *=  negOne;
     }
-    Fraction result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
+    Fraction<U> result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
     return result;
 }
 
@@ -234,7 +234,7 @@ Fraction<U>  operator*(Fraction<U> const & a, Fraction<U> const & b) {
         n *= negOne;
         d *=  negOne;
     }
-    Fraction result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
+    Fraction<U> result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
     return result;
 }
 
@@ -251,7 +251,7 @@ Fraction<U>  operator/(Fraction<U> const & a, Fraction<U> const & b) {
         n *= negOne;
         d *=  negOne;
     }
-    Fraction result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
+    Fraction<U> result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
     return result;
 }
 
@@ -297,7 +297,7 @@ Fraction<U>  operator%(Fraction<U> const & a, Fraction<U> const & b) {
     } 
     */
     
-    Fraction result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
+    Fraction<U> result(n/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)),d/Fraction<U>::Gcd(Fraction<U>::Absolute(n),Fraction<U>::Absolute(d)));
     return result;
 }
 
