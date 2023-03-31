@@ -32,7 +32,7 @@ Since the purpose of this project is to compare the same algorithmic calculation
 
 The inverse of a Matrix is usually defined as 
 
-    A * A<sup>-1</sup> = I where A has to a square matrix so nxn and the determinant of A is 0
+A * A<sup>-1</sup> = I where A has to a square matrix so nxn and the determinant of A is 0
 
 There are multiple ways of calculating Inverses of matrix, but I will be using LU Decomposition with partial row swapping, so
 
