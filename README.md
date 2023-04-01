@@ -42,7 +42,7 @@ Let L be a lower diagonal matrix
 Let U be a upper diagonal matrix
 
 so we get PA = LU, we can then so matrix algebra:
-PA = LU --> A = P<sup>-1</sup>LU  --> A = P<sup>T</sup>LU --> A<sup>-1</sup>=(P<sup>T</sup>LU)<sup>-1</sup> --> A<sup>-1</sup> = U<sup>-1</sup>L<sup>-1</sup>P<sup>T</sup><sup>-1</sup> = U<sup>-1</sup>L<sup>-1</sup>P because P<sup>T</sup> = P<sup>-1</sup>
+PA = LU --> A = P<sup>-1</sup>LU  --> A = P<sup>T</sup>LU --> A<sup>-1</sup>=(P<sup>T</sup>LU)<sup>-1</sup> --> A<sup>-1</sup> = U<sup>-1</sup>L<sup>-1</sup>(P<sup>T</sup>)<sup>-1</sup> = U<sup>-1</sup>L<sup>-1</sup>P because P<sup>T</sup> = P<sup>-1</sup>
 
 The reason why we are using a P matrix to swap rows is that LU Decomposition can fail if the top-left entry of a matrix A is 0, thus with partial swapping we 
 can rearrange the rows so the larger elements are on the diagonals.
