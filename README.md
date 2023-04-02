@@ -179,4 +179,4 @@ double, int, Fraction\<int\> .120 ms, 113 ms, and .229 ms, so my Matrix of a Fra
 
 I reason that the basic matrix class for JavaScript was faster due to the way the node engine optimizes and transform my javascript code to an intermediate form which allows the performance close to C, and since in the basic Matrix Class I was working with floating point primitive types it could be the V8 is optimizing floating point arithmetic whenever possible.
 
-For my Matrix of Fraction class, the result to seems make more sense, perhaps because building a custom data type(Fractions) with custom operations does not allow any optimizations to happen, and thus are more comparable. The overhead of javascript being transformed via node is causing the 2x slowness.
+For my Matrix of Fraction class, the result seems to make more sense, perhaps because building a custom data type(Fractions) with custom operations does not allow any optimizations to happen, and thus are more comparable. The overhead of javascript being transformed via node during runtime as well as the fact that C++ is compiled could be the main possible cause to why the JavaScript matrix is 2x slower than C++'s.
