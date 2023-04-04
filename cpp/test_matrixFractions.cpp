@@ -5,7 +5,7 @@
 
 using namespace std;
 
-bool compare_float(double x, double y, double epsilon = 0.0000001f){
+bool CompareFloat(double x, double y, double epsilon = 0.0000001f){
    if(fabs(x - y) < epsilon)
       return true; //they are same
       return false; //they are not same
@@ -59,7 +59,7 @@ void test3() {
     vector<double> ansUInverted = {0.5,0.125,0.375,0,0.25,0.0833333,0,0,0.333333};
     vector<double> UVec(U_inverted->GetArr());
     for (int i =0; i < UVec.size(); i++ ) {
-        assert(compare_float(ansUInverted[i],UVec[i], .001));
+        assert(CompareFloat(ansUInverted[i],UVec[i], .001));
     }
 
     delete U_inverted;
@@ -100,7 +100,7 @@ void test5() {
                                     0.0441989,-0.0801105,-0.104972,0.124309,0.0524862,
                                     -0.89779,0.970994,-0.0552486,0.631215,-0.222376};
      for (int i =0; i < IVec.size(); i++ ) {
-        assert(compare_float(ansInverted[i],IVec[i], .001));
+        assert(CompareFloat(ansInverted[i],IVec[i], .001));
     }
     double detA = A.Determinant();
     cout <<"detA: " << detA << endl;
@@ -269,7 +269,41 @@ void test9() {
 }
 
 
+void test10() {
+    cout << "-----TEST10---\n";
+     vector<Fraction<double>> vec1{
+       Fraction<double>(5), Fraction<double>(7), Fraction<double>(9), Fraction<double>(4), Fraction<double>(4),  Fraction<double>(2), Fraction<double>(4), Fraction<double>(7), Fraction<double>(1), Fraction<double>(4),
+         Fraction<double>(7), Fraction<double>(9), Fraction<double>(3), Fraction<double>(1), Fraction<double>(2), Fraction<double>(5), Fraction<double>(6), Fraction<double>(3), Fraction<double>(6), Fraction<double>(2),
+         Fraction<double>(1), Fraction<double>(4), Fraction<double>(2), Fraction<double>(5), Fraction<double>(2), Fraction<double>(6), Fraction<double>(13), Fraction<double>(9), Fraction<double>(2), Fraction<double>(15),
+         Fraction<double>(12), Fraction<double>(20), Fraction<double>(7,2), Fraction<double>(5,3), Fraction<double>(2,13), Fraction<double>(6,19), Fraction<double>(13,8), Fraction<double>(9,7), Fraction<double>(2,5), Fraction<double>(13,12),
+         Fraction<double>(11,12), Fraction<double>(7,25), Fraction<double>(6,2), Fraction<double>(3,3), Fraction<double>(5,13), Fraction<double>(20,19), Fraction<double>(17,8), Fraction<double>(5,7), Fraction<double>(4,5), Fraction<double>(6,12),
+         Fraction<double>(5,15), Fraction<double>(2,30), Fraction<double>(7,5), Fraction<double>(1,3), Fraction<double>(8,13), Fraction<double>(41,19), Fraction<double>(11,9), Fraction<double>(8,7), Fraction<double>(7,9), Fraction<double>(5,17),
+         Fraction<double>(2,17), Fraction<double>(7,29), Fraction<double>(9,3), Fraction<double>(5,3), Fraction<double>(9,13), Fraction<double>(71,19), Fraction<double>(13,8), Fraction<double>(15,7), Fraction<double>(3,5), Fraction<double>(14,12),
+         Fraction<double>(6,19), Fraction<double>(9,11), Fraction<double>(1,9), Fraction<double>(7,3), Fraction<double>(2,13), Fraction<double>(28,19), Fraction<double>(17,50), Fraction<double>(2,7), Fraction<double>(7,12), Fraction<double>(56,12),
+         Fraction<double>(9,10), Fraction<double>(1,24), Fraction<double>(4,2), Fraction<double>(1,3), Fraction<double>(1,13), Fraction<double>(23,19), Fraction<double>(14,8), Fraction<double>(2,70), Fraction<double>(70,5), Fraction<double>(5,19),
+         Fraction<double>(3,11), Fraction<double>(33,70), Fraction<double>(9,3), Fraction<double>(9,3), Fraction<double>(7,13), Fraction<double>(25,19), Fraction<double>(11,16), Fraction<double>(2,711), Fraction<double>(7,56), Fraction<double>(59,12)
+       };
+        Matrix<Fraction<double>> A(10,vec1);
+        A.Print();
+        Matrix<Fraction<double>>* A_inverted = A.LUInversion();
+        A_inverted->Print();
+        vector<double> A_Inverted_Ans{ 0.10025795585430151 , -0.5435622693226418 , -0.10009386958098374 , 0.17380273864430737 , 1.4684749296263968 , 2.7775875331369475 , -1.4584640753064706 , 1.791704641869694 , -0.003966276151435191 , -1.263185830467847,
+      -0.06402547800024323 , 0.3367050876197583 , 0.05620163769503209 , -0.056621438628152436 , -0.9188270318869798 , -1.6159222761770256 , 0.8443659986761375 , -1.0614865213018867 , -0.002548606460047206 , 0.7535334149877175,
+      -0.01827780226005967 , -0.33877067338001043 , 0.035257936046568975 , 0.15348483915824176 , 0.11797587615054408 , 1.3967684551639712 , -0.4699009922595088 , -0.16373148806886398 , 0.07809845700947322 , 0.17846480532505654,
+      0.06424945118451697 , 0.7828216666542989 , -0.11613900322378852 , -0.35493829734757293 , -0.03133077409443156 , -4.348605143730334 , 1.7294950653212868 , -0.021775219479870492 , -0.14267788958865701 , -0.05693947930305134,
+      0.11432580357016063 , 1.0037542340217454 , -0.07893576125176964 , -0.4347353702660289 , -1.3092871971976148 , -2.8892197114442384 , 0.954413381485344 , -1.21834929646311 , -0.17910913634144812 , 1.0807899480436698,
+      -0.07250201042259662 , -0.014140651134392617 , -0.01468981198312847 , 0.031276196672184384 , -0.10342279238241826 , 0.549828542112086 , 0.03440659246469213 , 0.0492932463402651 , -0.015954526890873236 , 0.026191216675674173,
+      -0.06479312305320958 , 0.3906960444984191 , 0.03844058269859246 , -0.14602640603064462 , -0.0687940483149333 , -1.6323553646519375 , 0.5561147956074197 , -0.5335914224251218 , -0.07372056377824347 , 0.29177518723681184,
+      0.11999801830237819 , -0.5077843214629313 , 0.0312962535473648 , 0.16032816081438916 , 0.487596966859845 , 1.5094959155930645 , -0.5187679777564239 , 0.8179528716820766 , 0.08374387524103329 , -0.8195076407697989,
+      0.00854393063742241 , 0.019764391352719058 , -0.0002352089909742671 , -0.010225551311584027 , -0.08659811301630674 , -0.14184883512200935 , 0.05859079671377178 , -0.026490605937445937 , 0.07398321353350042 , 0.012552863149555442,
+      -0.01181644441100393 , -0.4340672064615672 , 0.056703561213528896 , 0.17853728789871248 , 0.1363861744780319 , 2.202260848032843 , -0.9613134477173721 , 0.3106408993348222 , 0.07213364632166433 , -0.038968108880582594};
 
+        for (int i =0; i < vec1.size(); i++ ) {
+            assert(CompareFloat(A_Inverted_Ans[i], A_inverted->GetArr()[i].GetNumerator()/A_inverted->GetArr()[i].GetDenominator(),.0001));
+        }
+        delete A_inverted;
+    cout << "-----TEST10 PASSED----\n";
+}
 
 int main() {
     test1();
@@ -281,4 +315,5 @@ int main() {
     test7();
     test8();
     test9();
+    test10();
 }

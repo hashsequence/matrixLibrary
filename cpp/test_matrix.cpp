@@ -7,7 +7,7 @@
 using namespace std;
 
 
-bool compare_float(double x, double y, double epsilon = 0.0000001f){
+bool CompareFloat(double x, double y, double epsilon = 0.0000001f){
    if(fabs(x - y) < epsilon)
       return true; //they are same
       return false; //they are not same
@@ -61,7 +61,7 @@ void test3() {
     vector<double> ansUInverted = {0.5,0.125,0.375,0,0.25,0.0833333,0,0,0.333333};
     vector<double> UVec(U_inverted->GetArr());
     for (int i =0; i < UVec.size(); i++ ) {
-        assert(compare_float(ansUInverted[i],UVec[i], .001));
+        assert(CompareFloat(ansUInverted[i],UVec[i], .001));
     }
 
     delete U_inverted;
@@ -98,7 +98,7 @@ void test5() {
                                     0.0441989,-0.0801105,-0.104972,0.124309,0.0524862,
                                     -0.89779,0.970994,-0.0552486,0.631215,-0.222376};
      for (int i =0; i < IVec.size(); i++ ) {
-        assert(compare_float(ansInverted[i],IVec[i], .001));
+        assert(CompareFloat(ansInverted[i],IVec[i], .001));
     }
     double detA = A.Determinant();
     cout <<"detA: " << detA << endl;
