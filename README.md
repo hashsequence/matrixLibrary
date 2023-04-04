@@ -47,16 +47,21 @@ PA = LU --> A = P<sup>-1</sup>LU  --> A = P<sup>T</sup>LU --> A<sup>-1</sup>=(P<
 The reason why we are using a P matrix to swap rows is that LU Decomposition can fail if the top-left entry of a matrix A is 0, thus with partial swapping we 
 can rearrange the rows so the larger elements are on the diagonals.
 
-The time complexity is O(N<sup>3</sup>) 
+for LU Decomposition I used [Doolittle's Algorithm](https://en.wikipedia.org/wiki/LU_decomposition#Doolittle_algorithm) which has a time complexity of O(N<sup>3</sup>) where N is the number of rows/columns.
 
-For LU Decomposition I used [Doolittle's Algorithm](https://en.wikipedia.org/wiki/LU_decomposition#Doolittle_algorithm)
-Partial Pivoting is O(N<sup>2</sup>)
+Partial Pivoting would be O(N<sup>2</sup>).
 
-The inverse of P is P<sup>T</P> and so Transpose is O(N^<sup>2</sup>)
-and I can solve the inverses of U and L by: 
+The inverse of P is P<sup>T</P> and so Transpose is O(N<sup>2</sup>)
+and I can solve the inverses of U and L by:
 
 1. solving Ux = b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0<=i<n with backwards substitution
 2. solving Lx=b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0<=i<n with forward substitution
+
+which would be O(N<sup>3</sup>).
+
+Matrix multiplication of U<sup>-1</sup>L<sup>-1</sup>P would be O(N<sup>3</sup>).
+
+Total time complexity would be O(N<sup>3</sup>).
 
 ### Class and Methods
 
