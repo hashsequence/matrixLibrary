@@ -32,7 +32,7 @@ Since the purpose of this project is to compare the same algorithmic calculation
 
 The inverse of a Matrix is usually defined as 
 
-    A * A<sup>-1</sup> = I where A has to a square matrix so nxn and the determinant of A is 0
+A * A<sup>-1</sup> = I where A has to a square matrix so nxn and the determinant of A is 0
 
 There are multiple ways of calculating Inverses of matrix, but I will be using LU Decomposition with partial row swapping, so
 
@@ -42,7 +42,7 @@ Let L be a lower diagonal matrix
 Let U be a upper diagonal matrix
 
 so we get PA = LU, we can then so matrix algebra:
-PA = LU --> A = P<sup>-1</sup>LU  --> A = PLU --> A<sup>-1</sup>=(PLU)<sup>-1</sup> --> A<sup>-1</sup> = U<sup>-1</sup>L<sup>-1</sup>P<sup>-1</sup>
+PA = LU --> A = P<sup>-1</sup>LU  --> A = P<sup>T</sup>LU --> A<sup>-1</sup>=(P<sup>T</sup>LU)<sup>-1</sup> --> A<sup>-1</sup> = U<sup>-1</sup>L<sup>-1</sup>(P<sup>T</sup>)<sup>-1</sup> = U<sup>-1</sup>L<sup>-1</sup>P because P<sup>T</sup> = P<sup>-1</sup>
 
 The reason why we are using a P matrix to swap rows is that LU Decomposition can fail if the top-left entry of a matrix A is 0, thus with partial swapping we 
 can rearrange the rows so the larger elements are on the diagonals.
@@ -55,8 +55,8 @@ Partial Pivoting is O(N<sup>2</sup>)
 The inverse of P is P<sup>T</P> and so Transpose is O(N^<sup>2</sup>)
 and I can solve the inverses of U and L by: 
 
-1. solving Ux = b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0``<``=i``<``n with backwards substitution
-2. solving Lx=b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0<=i``<``n with forward substitution
+1. solving Ux = b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0<=i<n with backwards substitution
+2. solving Lx=b for all [0,..,e_i,...0] where e<sub>i</sub> = 1 for all 0<=i<n with forward substitution
 
 ### Class and Methods
 
@@ -71,11 +71,11 @@ For the both C++ and JavaScript libraries I made versions of the Matrix Library
 
 Here is the basic structure of the libraries in psuedo-code:
 
-    ```
     Class Fraction {
         var numerator;
         var denomiator;
     }
+                                                                               
     Class Row {
         var Fractions[] arr;
         DotProduct();
@@ -88,8 +88,6 @@ Here is the basic structure of the libraries in psuedo-code:
         Transpose();
         Multiply();
     }
-
-    ```
 
 ## Benchmarking LU inverions with partial row swapping
 
