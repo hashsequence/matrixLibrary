@@ -96,48 +96,51 @@ Here is the basic structure of the libraries in psuedo-code:
 For benching I used google/bench for the c++ library and jest-bench for javascript.
 
 jest-bench and google benchmarks will run each test until they reach a stable average rate per run
-This is the results of the benchmarks for C++ and JavaScript libraries for LU Inversion with a 5x5 matrix:
+This is the results of the benchmarks for C++ and JavaScript libraries for LU Inversion with a 5x5 matrix and for fractions I also tested with an additional 10x10 matrix:
 
 ### C++
+
 ```console
 foo@bar:~/matrixLibrary/cpp$ make bench-all
 rm -rf test_matrix.exe test_matrixFractions.exe bench_matrix.exe bench_matrixFractions.exe
 g++ bench_matrix.cc -isystem benchmark/include  -Lbenchmark/build/src -lbenchmark -lpthread -o bench_matrix.exe
 ./bench_matrix.exe
-2023-03-31T14:11:08-07:00
+2023-04-03T19:09:58-07:00
 Running ./bench_matrix.exe
 Run on (12 X 2592 MHz CPU s)
 Load Average: 0.52, 0.58, 0.59
 ------------------------------------------------------------------------------------------
 Benchmark                                                Time             CPU   Iterations
 ------------------------------------------------------------------------------------------
-BM_BenchMarkLUInversionDouble/iterations:100000      0.100 ms        0.100 ms       100000
-BM_BenchMarkLUInversionDouble/iterations:100         0.101 ms        0.156 ms          100
-BM_BenchMarkLUInversionDouble                        0.102 ms        0.103 ms         7467
+BM_BenchMarkLUInversionDouble/iterations:100000      0.197 ms        0.188 ms       100000
+BM_BenchMarkLUInversionDouble/iterations:100         0.282 ms        0.312 ms          100
+BM_BenchMarkLUInversionDouble                        0.283 ms        0.285 ms         2635
 rm -rf test_matrix.exe test_matrixFractions.exe bench_matrix.exe bench_matrixFractions.exe
 g++ bench_matrixFractions.cc -isystem benchmark/include  -Lbenchmark/build/src -lbenchmark -lpthread -o bench_matrixFractions.exe
 ./bench_matrixFractions.exe
-2023-03-31T14:11:20-07:00
+2023-04-03T19:10:21-07:00
 Running ./bench_matrixFractions.exe
 Run on (12 X 2592 MHz CPU s)
 Load Average: 0.52, 0.58, 0.59
-----------------------------------------------------------------------------------------------------------
-Benchmark                                                                Time             CPU   Iterations
-----------------------------------------------------------------------------------------------------------
-BM_BenchMarkMatrixTemplateIntLUInversion/iterations:100000           0.101 ms        0.101 ms       100000
-BM_BenchMarkMatrixTemplateDoubleLUInversion/iterations:100000        0.103 ms        0.103 ms       100000
-BM_BenchMarkMatrixTemplateFractionLUInversion/iterations:100000      0.232 ms        0.231 ms       100000
-BM_BenchMarkMatrixTemplateIntLUInversion/iterations:100              0.122 ms        0.156 ms          100
-BM_BenchMarkMatrixTemplateDoubleLUInversion/iterations:100           0.234 ms        0.312 ms          100
-BM_BenchMarkMatrixTemplateFractionLUInversion/iterations:100         0.422 ms        0.312 ms          100
-BM_BenchMarkMatrixTemplateIntLUInversion                             0.120 ms        0.120 ms         6400
-BM_BenchMarkMatrixTemplateDoubleLUInversion                          0.113 ms        0.112 ms         6400
-BM_BenchMarkMatrixTemplateFractionLUInversion                        0.229 ms        0.230 ms         2987
+-------------------------------------------------------------------------------------------------------------------
+Benchmark                                                                         Time             CPU   Iterations
+-------------------------------------------------------------------------------------------------------------------
+BM_BenchMarkMatrixTemplateIntLUInversionFiveXFive/iterations:100000           0.206 ms        0.200 ms       100000
+BM_BenchMarkMatrixTemplateDoubleLUInversionFiveXFive/iterations:100000        0.286 ms        0.282 ms       100000
+BM_BenchMarkMatrixTemplateFractionLUInversionFiveXFive/iterations:100000      0.593 ms        0.568 ms       100000
+BM_BenchMarkMatrixTemplateIntLUInversionFiveXFive/iterations:100              0.297 ms        0.156 ms          100
+BM_BenchMarkMatrixTemplateDoubleLUInversionFiveXFive/iterations:100           0.331 ms        0.312 ms          100
+BM_BenchMarkMatrixTemplateFractionLUInversionFiveXFive/iterations:100         0.642 ms        0.625 ms          100
+BM_BenchMarkMatrixTemplateIntLUInversionFiveXFive                             0.298 ms        0.298 ms         2358
+BM_BenchMarkMatrixTemplateDoubleLUInversionFiveXFive                          0.312 ms        0.314 ms         2240
+BM_BenchMarkMatrixTemplateFractionLUInversionFiveXFive                        0.655 ms        0.642 ms         1120
+BM_BenchMarkMatrixTemplateFractionLUInversionTenXTen                           7.31 ms         7.29 ms           90
+
 ```
 
 ### JavaScript
 
-```
+```console
 foo@bar:~/matrixLibrary/javascript$ npm run bench
 
 > matrixlibrary@1.0.0 bench
@@ -151,34 +154,35 @@ foo@bar:~/matrixLibrary/javascript$ npm run bench
   Configuration Documentation:
   https://jestjs.io/docs/configuration
 
- PASS  ./matrix.bench.js (7.114 s)
- PASS  ./matrixFractions.bench.js (12.902 s)
+ PASS  ./matrix.bench.js (7.057 s)
+ PASS  ./matrixFractions.bench.js (18.739 s)
 Benchmarks:
   Matrix
-    inverting 5x5 Matrix of Numbers   0.015 ms ±  2.25 %  (90 runs sampled)
+    inverting 5x5 Matrix of Numbers   0.040 ms ±  18.42 %  (36 runs sampled)
   Matrix using custom Fractions Class instead of Numbers
-    inverting 5x5 Matrix of Numbers     0.439 ms ±  2.38 %  (89 runs sampled)
-    inverting 5x5 Matrix of Fractions   0.443 ms ±  1.65 %  (80 runs sampled)
+    inverting 5x5 Matrix of Numbers        1.15 ms ±  17.58 %  (35 runs sampled)
+    inverting 5x5 Matrix of Fractions      1.13 ms ±   2.25 %  (79 runs sampled)
+    inverting 10x10 Matrix of Fractions   12.08 ms ±   2.13 %  (66 runs sampled)
 
 Test Suites: 2 passed, 2 total
-Tests:       3 passed, 3 total
+Tests:       4 passed, 4 total
 Snapshots:   0 total
-Time:        13.401 s, estimated 14 s
+Time:        19.468 s
 Ran all test suites.
+
 ```
 
 ### Discussion
 
 For my basic matrix class 
 
-It looks like LUInversion for a Javascript implementation of Matrix of numbers is around .015 ms as oppose to the C++ implementation which is around .100 ms
-thus javascript Matrix class for LUInversion is 6 times faster than C++
+It looks like LUInversion for a Javascript implementation of Matrix of numbers is around 0.040 ms as oppose to the C++ implementation which is around .280 ms
+thus javascript Matrix class for LUInversion is 7 times faster than C++
 
 For my Matrix of Fraction Class
 
-For C++ I implemented a template for Matrix that support double,int, Fraction\<int\> and for Javascript I implemented a Matrix of Fractions or another custom class that implements the same methods of my Fraction class. My Javascript class ran LUInversion at around .439 ms, and my C++ implementation ran LUInversion for around
-double, int, Fraction\<int\> .120 ms, 113 ms, and .229 ms, so my Matrix of a Fraction class for C++ is twice as fast as my JavaScript class.
+For C++ I implemented a template for Matrix that support double,int, Fraction\<int\> and for Javascript I implemented a Matrix of Fractions or another custom class that implements the same methods of my Fraction class. My Javascript class ran LUInversion for fractions for a 5x5 at around 1.13 ms, and my C++ implementation ran LUInversion for the same 5x5 for double, int, Fraction\<int\> at around .298, .312 ms, and .655 ms respectively, so my Matrix of a Fraction class for C++ is almost twice as fast as my JavaScript class for fractions (1.13 ms for javascript and .655 ms for C++). For the 10x10 matrix of fractions, my C++ version was 7.31 ms and my javascript version was 12.08 ms, so it is also the ratio of (speed of C++)/(speed of Javascript) is still roughly almost 2.
 
 I reason that the basic matrix class for JavaScript was faster due to the way the node engine optimizes and transform my javascript code to an intermediate form which allows the performance close to C, and since in the basic Matrix Class I was working with floating point primitive types it could be the V8 is optimizing floating point arithmetic whenever possible.
 
-For my Matrix of Fraction class, the result to seems make more sense, perhaps because building a custom data type(Fractions) with custom operations does not allow any optimizations to happen, and thus are more comparable. The overhead of javascript being transformed via node is causing the 2x slowness.
+For my Matrix of Fraction class, the result to seems make more sense with Javascript being twice as slow as C++. Perhaps the reason is because building a custom data type(Fractions) with custom operations does not allow for any special floating-point arithmetic optimzations to happen or least to a staggering extent, and thus are more comparable, and the overhead of javascript executed at runtime versus C++ being compiled would then be the main probable cause for why javascript is usually always slower than C++.
